@@ -1,0 +1,11 @@
+name: mooda
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  - python>=3.7
+  - bumpversion
+  - argh
+  - sphinx
+  - sphinx_rtd_theme
