@@ -28,7 +28,12 @@ setup(
 
     # test info and requirements
     test_suite='tests',
-    tests_require=[],
+    tests_require=[
+        biopython==1.73,
+        numpy==1.16.2,
+        pandas==0.24.2,
+        PyYAML==5.1,
+    ],
 
     # package deployment info
     include_package_data=True,
