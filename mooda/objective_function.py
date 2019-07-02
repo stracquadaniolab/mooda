@@ -159,26 +159,22 @@ class CodonUsageObjective(ObjectiveFunction):
 """
 
 
-class RepetitionObjective(ObjectiveFunction):
+class MotifObjective(ObjectiveFunction):
     def initialise(self):
         self.repetition_table = RepetitionTable()
         self.repetition_table.motives_dict = self.repetition_table.load_config(
             self.yaml["Algorithm"]["objective_functions"][
-                "mooda.objective_function.RepetitionObjective"
-            ]["repetition_table"]
+                "mooda.objective_function.MotifObjective"
+            ]["motif_table"]
         )
         self.repetition_table.get_motives_list()
 
     def eval(self, ind):
-        # objective f
-        # unction value
+        # objective Function value
         cum_sum = 0.0
         # for each CDS in
-        for index in ind.cds_indexes_list:
-            # sequence
-            cds = ind.sequence[index.location.start:index.location.end]
-            if index.location.strand != 1:
-                cds = cds[::-1]
+        for pos in ind.blocks:
+            block_sequence = ind.sequence[pos[0]: pos[1]]
             for motive in self.repetition_table.motives:
-                cum_sum += cds.count(motive)
+                cum_sum += block_sequence.count(motive)
         return cum_sum

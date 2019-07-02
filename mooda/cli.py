@@ -34,7 +34,7 @@ def load_external_classes(config, section, class_type):
         try:
             cls = getattr(mod, cls_name)(config)
         except AttributeError:
-            logging.error("Cannot fine class {}".format(cls))
+            logging.error("Can not find class {}".format(cls))
             sys.exit(-1)
 
         # check if the class is of type Plugin
@@ -45,7 +45,6 @@ def load_external_classes(config, section, class_type):
         else:
             logging.error("{} is not a valid {}.".format(op, class_type))
             sys.exit(-1)
-
     return cls_list
 
 

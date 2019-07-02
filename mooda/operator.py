@@ -105,7 +105,7 @@ class SplitBlockOperator(Operator):
         bkpt = random.choice(bkpts)
         blocksize = ind.blocks[bkpt][1] - ind.blocks[bkpt][0]
 
-        while blocksize < 2 * self.min_block_size and len(bkpts) > 0:
+        while blocksize < 2 * self.min_block_size and len(bkpts) > 1:
             bkpts.remove(bkpt)
             bkpt = random.choice(bkpts)
             blocksize = ind.blocks[bkpt][1] - ind.blocks[bkpt][0]
@@ -221,7 +221,7 @@ class GCOptimizationOperator(Operator):
         ]["target_gc"]
         self.step_size_gc = self.yaml["Algorithm"]["operators"][
             "mooda.operator.GCOptimizationOperator"
-        ]["set_step_size_gc"]
+        ]["step_size"]
 
     def apply(self, ind):
         # reference sequence
@@ -295,11 +295,8 @@ class CodonUsageOperator(Operator):
         )
 
     def __set_step_size_codon_usage(self):
-        self.step_size_codon_usage = (
-                                         self.yaml["Algorithm"]["operators"]["mooda.operator.CodonUsageOperator"][
-                                             "set_step_size_codon_usage"
-                                         ]
-                                     ) * 100
+        self.step_size_codon_usage = (self.yaml["Algorithm"]["operators"]["mooda.operator.CodonUsageOperator"][
+            "step_size"]) * 100
 
     def __swap_number_(self, codon_list):
         codons_to_swap = int(((len(codon_list)) * self.step_size_codon_usage) / 100)
@@ -344,13 +341,13 @@ class CodonUsageOperator(Operator):
 """
 
 
-class RepetitionOperator(Operator):
+class MotifOperator(Operator):
 
     def __set_repetition_table(self):
         self.repetition_table = RepetitionTable()
         self.repetition_table.motives_dict = self.repetition_table.load_config(
-            self.yaml["Algorithm"]["operators"]["mooda.Operator.RepetitionOperator"][
-                "repetition_table"
+            self.yaml["Algorithm"]["operators"]["mooda.operator.MotifOperator"][
+                "motif_table"
             ]
         )
         self.repetition_table.get_motives_list()
@@ -358,7 +355,7 @@ class RepetitionOperator(Operator):
     def __set_codon_usage_table(self):
         self.codon_usage_table = CodonTable()
         self.codon_usage_table.codons = self.codon_usage_table.load_config(
-            self.yaml["Algorithm"]["operators"]["mooda.Operator.RepetitionOperator"][
+            self.yaml["Algorithm"]["operators"]["mooda.operator.MotifOperator"][
                 "codon_usage_table"
             ]
         )
@@ -409,8 +406,8 @@ class RepetitionOperator(Operator):
     def initialise(self):
         self.__set_repetition_table()
         self.__set_codon_usage_table()
-        self.step_size_rep = (self.yaml["Algorithm"]["operators"]["mooda.operator.RepetitionOperator"]
-        ["set_step_size_repetition"]) * 100
+        self.step_size_rep = (self.yaml["Algorithm"]["operators"]["mooda.operator.MotifOperator"]
+        ["step_size"]) * 100
 
     def apply(self, ind):
         pts_motives_cds = self.__remove_cds_without_rep(
