@@ -11,7 +11,7 @@ setup(
     # package information
     name = 'mooda',
     packages = find_packages(),
-    version = '0.1.0-dev',
+    version = '0.1.1-dev',
     description = 'Multi-Objective Optimisation algorithm for sequence Design and Assembly',
     long_description = readme,
     license = 'MIT',
