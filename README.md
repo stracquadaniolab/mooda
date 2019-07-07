@@ -1,6 +1,6 @@
 # mooda
 
-Current version: 0.0.1-dev
+Current version: 0.1.0-dev
 
 Multi-Objective Optimisation algorithm for sequence Design and Assembly
 
