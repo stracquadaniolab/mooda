@@ -12,6 +12,7 @@
 !mooda/*
 !mooda/**
 !*.py
+!.drone.yml
 !.bumpversion.cfg
 !.editorconfig
 !.gitattributes
