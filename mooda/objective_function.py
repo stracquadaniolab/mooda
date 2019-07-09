@@ -13,6 +13,7 @@ class ObjectiveFunction:
     def __init__(self, yaml):
         self.yaml = yaml
 
+
     def eval(self, ind):
         pass
 

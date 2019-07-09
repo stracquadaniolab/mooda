@@ -90,7 +90,6 @@ class EvolutionaryAlgorithm:
         self.time_start = datetime.datetime.now()
         self.__initialize()
         for it in range(self.max_iterations):
-
             self.current_iteration += 1
             logging.info("itr=" + str(self.current_iteration))
             for i in range(len(self.population.individuals)):
@@ -106,6 +105,7 @@ class EvolutionaryAlgorithm:
             self.population.compute_crowding_distance(self.objective_functions)
             self.population.select_individuals()
             self.archive.add_to_archive(self.population)
+
             if len(self.archive.individuals) >= self.archive.length:
                 self.archive.compute_ranking()
                 self.archive.initialise_fronts()
@@ -122,6 +122,7 @@ class EvolutionaryAlgorithm:
         # evaluate objfun for each individual
         for obj in self.objective_functions:
             ind.objectives.append(obj.eval(ind))
+
 
     def __termination_process(self):
         self.population.individuals = (

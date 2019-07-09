@@ -58,7 +58,15 @@ class Individual:
     # clone the instance with a deepcopy
     # useful when creating offsprings
     def clone(self):
-        return copy.deepcopy(self)
+        offspring = Individual(self.gebank_record)
+        offspring.sequence = copy.deepcopy(self.sequence)
+        offspring.features = copy.deepcopy(self.features)
+        offspring.blocks = copy.deepcopy(self.blocks)
+        offspring.cds_indexes_list = copy.deepcopy(self.cds_indexes_list)
+        offspring.utr_indexes_list = copy.deepcopy(self.utr_indexes_list)
+        offspring.cds_list = copy.deepcopy(self.cds_list)
+        offspring.utr_list = copy.deepcopy(self.utr_list)
+        return offspring
 
     def __get_feature_CDS_list(self):
         cds_index = []

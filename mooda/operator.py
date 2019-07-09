@@ -16,6 +16,7 @@ class Operator:
     def __init__(self, yaml):
         self.yaml = yaml
 
+
     def apply(self, ind):
         pass
 
@@ -105,11 +106,6 @@ class SplitBlockOperator(Operator):
         bkpt = random.choice(bkpts)
         blocksize = ind.blocks[bkpt][1] - ind.blocks[bkpt][0]
 
-        while blocksize < 2 * self.min_block_size and len(bkpts) > 1:
-            bkpts.remove(bkpt)
-            bkpt = random.choice(bkpts)
-            blocksize = ind.blocks[bkpt][1] - ind.blocks[bkpt][0]
-
         if blocksize >= 2 * self.min_block_size:
             second_end = ind.blocks[bkpt][1]
 
@@ -134,6 +130,7 @@ class SplitBlockOperator(Operator):
 
 
 class JoinBlockOperator(Operator):
+
     def __set_max_block_size(self):
         self.max_block_size = self.yaml["Algorithm"]["operators"][
             "mooda.operator.JoinBlockOperator"
@@ -170,17 +167,35 @@ class JoinBlockOperator(Operator):
 
         # if blocksize > max size split until  min<size<max
         if first_end - first_start > (self.max_block_size + self.step_size):
-            while first_end - first_start > self.max_block_size or \
-                second_end - second_start > (self.max_block_size + self.step_size):
-                second_end = ind.blocks[new_block_pt][1]
-                first_end = random.randrange(first_start + self.min_block_size,
-                                             second_end - self.min_block_size, self.step_size)
-                second_start = first_end
-                second_end = ind.blocks[new_block_pt][1]
-
+            break_range = math.floor(self.max_block_size - ((first_end - first_start)/2))
+            median_point = math.floor((first_start + first_end)/2)
+            if break_range > self.step_size:
+                first_end = random.randrange((median_point - break_range),(median_point + break_range), self.step_size)
+            elif break_range <= self.step_size:
+                first_end = median_point
+            second_start = first_end
+            second_end = ind.blocks[new_block_pt][1]
             ind.blocks[new_block_pt][1] = first_end
             newblock = [second_start, second_end]
             ind.blocks.insert((new_block_pt + 1), newblock)
+
+            # print(ind.blocks)
+            # blocksize = []
+            # for block in ind.blocks:
+            #     blocksize.append(block[1] - block[0])
+            # print(blocksize)
+
+
+
+            # while first_end - first_start > self.max_block_size or \
+            #     second_end - second_start > (self.max_block_size + self.step_size):
+            #     second_end = ind.blocks[new_block_pt][1]
+            #     first_end = random.randrange(first_start + self.min_block_size,
+            #                                  second_end - self.min_block_size, self.step_size)
+            #     second_start = first_end
+            #     second_end = ind.blocks[new_block_pt][1]
+
+
 
     def initialise(self):
         self.__set_max_block_size()
