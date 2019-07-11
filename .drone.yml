@@ -5,5 +5,5 @@ steps:
 - name: install
   image: stracquadaniolab/ci-build-python3.6
   commands:
-  - pip install .
+  - pip install --ignore-installed .
   - mooda --help
