@@ -107,12 +107,17 @@ class MoodaFile:
         table = pd.DataFrame(dict_list, columns=fieldnames)
         table.to_csv(output)
 
-    def save_fasta(self, options, ea):
+    def save_fasta(self, options,ag):
         suffix = ".fasta"
         path_dir = Path(options.output_dir)
         wildcard = path_dir.parts[-1]
-        if ea.outputfasta_gebank:
-            for ind in ea.population.individuals:
+        if ag.outputfasta_gebank:
+            individual_list =[]
+            if options.algorithm == "mo":
+                individual_list = ag.population.individuals
+            elif options.algorithm == "mc":
+                individual_list = ag.archive.individuals
+            for ind in individual_list:
                 ind.fasta = self.__file_check(options.output_dir, suffix)
                 with open(ind.fasta, "w") as fastaseq:
                     for block in ind.blocks:
@@ -127,7 +132,12 @@ class MoodaFile:
     def save_genbank(self, options, ag):
         suffix = ".genbank"
         if ag.outputfasta_gebank:
-            for ind in ag.population.individuals:
+            individual_list = []
+            if options.algorithm == "mo":
+                individual_list = ag.population.individuals
+            elif options.algorithm == "mc":
+                individual_list = ag.archive.individuals
+            for ind in individual_list:
                 ind.genbank = self.__file_check(options.output_dir, suffix)
                 record = SeqRecord(
                     ind.sequence,

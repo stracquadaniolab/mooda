@@ -72,7 +72,6 @@ class MonteCarloAlgorithm:
         self.individual.initialise()
         # evaluate objective functions for each individual
         self.block_initialiser.apply(self.individual)
-        self.assemblies[0].apply(self.individual)
         self.__eval_individual(self.individual)
 
     def run(self):
@@ -84,8 +83,6 @@ class MonteCarloAlgorithm:
             offspring = self.individual.clone()
             op_curr = np.random.choice(self.operators)
             op_curr.apply(offspring)
-            if type(op_curr).__name__ == "JoinBlockOperator" or type(op_curr).__name__ == "SplitBlockOperator":
-                self.assemblies[0].apply(offspring)
             self.__eval_individual(offspring)
             self.__duel(self.individual, offspring)
         self.__termination()
@@ -115,6 +112,9 @@ class MonteCarloAlgorithm:
         self.archive.compute_crowding_distance(self.objective_functions)
         self.archive.select_only_rank1()
         self.archive.remove_duplicates()
+        self.assemblies[0].apply(self.archive)
+
+
 
     def __eval_individual(self, ind):
         ind.objectives = []

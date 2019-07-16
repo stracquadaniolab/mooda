@@ -138,7 +138,7 @@ def main():
     config = YamlConfig()
     config = config.load_config(options.yaml_config)
 
-    # selecting the algortihm
+    # selecting the algorithm
     ag = None
 
     if options.algorithm == "mo":
