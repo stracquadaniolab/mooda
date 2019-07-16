@@ -36,6 +36,7 @@ class BlockInitialiserOperator:
         self.max_block_size = None
         self.min_block_size = None
         self.step_size = None
+        self.junction_size = None
 
     def _get_block_maxsize(self, ind):
         max_length_block = 0
@@ -122,6 +123,8 @@ class SplitBlockOperator(Operator):
             ind.blocks.insert((bkpt + 1), newblock)
 
 
+
+
 """
     Class JoinBlockOperator
 
@@ -134,7 +137,7 @@ class JoinBlockOperator(Operator):
     def __set_max_block_size(self):
         self.max_block_size = self.yaml["Algorithm"]["operators"][
             "mooda.operator.JoinBlockOperator"
-        ]["max_block_size"]
+        ]["max_block_size"] - self.junction_size
 
     def __set_min_block_size(self):
         self.min_block_size = self.yaml["Algorithm"]["operators"][
@@ -143,8 +146,14 @@ class JoinBlockOperator(Operator):
 
     def __set_step_size(self):
         self.step_size = self.yaml["Algorithm"]["operators"][
-            "mooda.operator.SplitBlockOperator"
+            "mooda.operator.JoinBlockOperator"
         ]["step_size"]
+
+    def __set_junction_size(self):
+        self.junction_size = self.yaml["Algorithm"]["operators"][
+            "mooda.operator.JoinBlockOperator"
+        ]["junction_size"]
+
 
     def join(self, ind, block_1_pt, direction):
         # If forward join a block with next block
@@ -156,6 +165,7 @@ class JoinBlockOperator(Operator):
             first_end = ind.blocks[block_1_pt][1]
             new_block_pt = block_1_pt
 
+
         # If backward join a block with previous
         elif direction == "backward":
             block_2_pt = block_1_pt - 1
@@ -166,12 +176,13 @@ class JoinBlockOperator(Operator):
             new_block_pt = block_2_pt
 
         # if blocksize > max size split until  min<size<max
-        if first_end - first_start > (self.max_block_size + self.step_size):
-            break_range = math.floor(self.max_block_size - ((first_end - first_start)/2))
+        block_size = first_end - first_start
+        if first_end - first_start > self.max_block_size:
+            break_range = math.floor(self.max_block_size - (block_size/2))
             median_point = math.floor((first_start + first_end)/2)
-            if break_range > self.step_size:
+            if self.max_block_size - block_size > self.min_block_size:
                 first_end = random.randrange((median_point - break_range),(median_point + break_range), self.step_size)
-            elif break_range <= self.step_size:
+            else :
                 first_end = median_point
             second_start = first_end
             second_end = ind.blocks[new_block_pt][1]
@@ -179,11 +190,6 @@ class JoinBlockOperator(Operator):
             newblock = [second_start, second_end]
             ind.blocks.insert((new_block_pt + 1), newblock)
 
-            # print(ind.blocks)
-            # blocksize = []
-            # for block in ind.blocks:
-            #     blocksize.append(block[1] - block[0])
-            # print(blocksize)
 
 
 
@@ -198,9 +204,11 @@ class JoinBlockOperator(Operator):
 
 
     def initialise(self):
+        self.__set_junction_size()
+        self.__set_step_size()
         self.__set_max_block_size()
         self.__set_min_block_size()
-        self.__set_step_size()
+
 
     def apply(self, ind):
         block_1_pt = random.randrange(0, len(ind.blocks) - 1)

@@ -31,15 +31,24 @@ class GCContentObjective(ObjectiveFunction):
             "mooda.objective_function.GCContentObjective"
         ]["target_gc"]
 
+    def __set_junction_size(self):
+        self.junction_size = self.yaml["Algorithm"]["objective_functions"][
+            "mooda.objective_function.GCContentObjective"
+        ]["junction_size"]
+
     def initialise(self):
         self.__set_target_gc()
+        self.__set_junction_size()
 
     def eval(self, ind):
         cum_sum = 0.0
-
-        for pos in ind.blocks:
-            gc_val = GC(ind.sequence[pos[0]: pos[1]])
+        for pos in ind.blocks[:-1]:
+            gc_val = GC(ind.sequence[pos[0]: (pos[1] + self.junction_size)])
             cum_sum += np.abs(gc_val - self.target_gc)
+
+        pos = ind.blocks[-1]
+        gc_val = GC(ind.sequence[pos[0]: pos[1]])
+        cum_sum += np.abs(gc_val - self.target_gc)
         return cum_sum / float(len(ind.blocks))
 
 
@@ -51,14 +60,26 @@ class GCContentObjective(ObjectiveFunction):
 
 
 class BlockVarianceObjective(ObjectiveFunction):
+
+    def __set_junction_size(self):
+        self.junction_size = self.yaml["Algorithm"]["objective_functions"][
+            "mooda.objective_function.BlockVarianceObjective"
+        ]["junction_size"]
+
     def initialise(self):
-        pass
+        self.__set_junction_size()
 
     def eval(self, ind):
         block_length_list = []
-        for bb in ind.blocks:
-            blocksize = bb[1] - bb[0]
+
+        for bb in ind.blocks[:-1]:
+            blocksize = (bb[1] + self.junction_size) - bb[0]
             block_length_list.append(blocksize)
+
+        bb = ind.blocks[-1]
+        blocksize = bb[1] - bb[0]
+        block_length_list.append(blocksize)
+
         block_variance = np.var(block_length_list, dtype=np.float64)
         return block_variance
 

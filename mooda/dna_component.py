@@ -17,7 +17,7 @@ class Coding(DNAComponent):
     def __get_CDS(self, ind):
         self.seq = ind.sequence[self.pt.location.start : self.pt.location.end]
         if self.pt.location.strand != 1:
-            self.seq = self.seq.copmlement()
+            self.seq = self.seq.complement()
 
     def __get_codon_list(self):
         self.codons = [self.seq[i : i + 3] for i in range(0, len(self.seq), 3)]

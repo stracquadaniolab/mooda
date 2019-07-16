@@ -70,7 +70,7 @@ class MoodaFile:
             }
         )
         if options.algorithm == "mc":
-            log["Algoritm"] = "Montecarlo"
+            log["Algorithm"] = "Montecarlo"
         elif options.algorithm == "mo":
             log["Algorithm"] = "Multi-Objective"
             log["Population"] = ag.population.size
@@ -113,7 +113,7 @@ class MoodaFile:
         wildcard = path_dir.parts[-1]
         if ea.outputfasta_gebank:
             for ind in ea.population.individuals:
-                ind.fasta = self.__file_check(options.output_dir, ea, suffix)
+                ind.fasta = self.__file_check(options.output_dir, suffix)
                 with open(ind.fasta, "w") as fastaseq:
                     for block in ind.blocks:
                         seq_record = SeqRecord(
@@ -128,7 +128,7 @@ class MoodaFile:
         suffix = ".genbank"
         if ag.outputfasta_gebank:
             for ind in ag.population.individuals:
-                ind.genbank = self.__file_check(options.output_dir, ag, suffix)
+                ind.genbank = self.__file_check(options.output_dir, suffix)
                 record = SeqRecord(
                     ind.sequence,
                     id=ind.gebank_record.id,

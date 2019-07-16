@@ -120,6 +120,9 @@ def parse_command_line_options():
         "--block-step-size", "-bss", type=int, required=False, default=50, help="block maximum size"
     )
     parser.add_argument(
+        "--block-junction-size", "-js", type=int, required=False, default=40, help="block junction size"
+    )
+    parser.add_argument(
         "--output-dir", "-dir", type=str, required=True, help="output directory"
     )
     options = parser.parse_args()

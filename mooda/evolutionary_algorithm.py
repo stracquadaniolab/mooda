@@ -61,9 +61,9 @@ class EvolutionaryAlgorithm:
         self.archive.length = options.archive_size
 
     def set_block_initialiser(self, options):
-        self.block_initialiser.max_block_size = options.block_max_size
-        self.block_initialiser.min_block_size = options.block_min_size
         self.block_initialiser.step_size = options.block_step_size
+        self.block_initialiser.max_block_size = options.block_max_size - options.block_junction_size
+        self.block_initialiser.min_block_size = options.block_min_size
 
     def load_setting(self, config, options):
         self.set_yaml_file(config)
@@ -80,9 +80,8 @@ class EvolutionaryAlgorithm:
             ind.initialise()
             # evaluate objective functions for each individual
             self.block_initialiser.apply(ind)
-            self.assemblies[0].apply(ind)
+            #self.assemblies[0].apply(ind)
             self.__eval_individual(ind)
-            # add invidual to the population
             self.population.add_individual(ind)
         return self.population
 
@@ -96,8 +95,6 @@ class EvolutionaryAlgorithm:
                 offspring = self.population.individuals[i].clone()
                 op_curr = np.random.choice(self.operators)
                 op_curr.apply(offspring)
-                if type(op_curr).__name__ == "JoinBlockOperator" or type(op_curr).__name__ == "SplitBlockOperator":
-                    self.assemblies[0].apply(offspring)
                 self.__eval_individual(offspring)
                 self.population.individuals.append(offspring)
             self.population.compute_ranking()
@@ -112,6 +109,8 @@ class EvolutionaryAlgorithm:
                 self.archive.select_only_rank1()
                 self.archive.remove_duplicates()
                 self.archive.random_deletion()
+
+        self.assemblies[0].apply(self.population)
         self.__termination_process()
         self.time_end = datetime.datetime.now()
         duration = "duration= " + str(self.time_end - self.time_start)

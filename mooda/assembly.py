@@ -20,10 +20,11 @@ class Gibson(Assembly):
     makes it
     """
 
-    def apply(self, ind):
+    def apply(self, population):
         # for each block
-        for block_index in range(len(ind.blocks[:-1])):
-            next_block = block_index + 1
-            # if there is no overlap make it
-            if ind.blocks[block_index][1] == ind.blocks[next_block][0]:
-                ind.blocks[block_index][1] = ind.blocks[block_index][1] + self.junction_size
+        for ind in population.individuals:
+            for block_index in range(len(ind.blocks[:-1])):
+                next_block = block_index + 1
+                # if there is no overlap make it
+                if ind.blocks[block_index][1] == ind.blocks[next_block][0]:
+                    ind.blocks[block_index][1] = ind.blocks[block_index][1] + self.junction_size

@@ -99,6 +99,13 @@ class Individual:
             elif pt == len(self.cds_indexes_list) - 1:
                 self.__get_last_feature_UTR(pt)
 
+    def __get_assembly(self, junction_size ):
+        for block_index in range(len(self.blocks[:-1])):
+            next_block = block_index + 1
+            # if there is no overlap make it
+            if self.blocks[block_index][1] == self.blocks[next_block][0]:
+                self.blocks[block_index][1] = self.blocks[block_index][1] + junction_size
+
     def initialise(self):
         self.__get_feature_CDS_list()
         self.__get_feature_UTR_list()

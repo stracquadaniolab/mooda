@@ -50,11 +50,11 @@ class Population:
                 p.rank = 1
                 self.fronts[0].append(p)
 
-    def initialise_fronts(self) :
+    def initialise_fronts(self):
         counter = 1
-        while len(self.fronts[counter-1]) > 0 :
+        while len(self.fronts[counter-1]) > 0:
             next_front = []
-            for p in self.fronts[counter-1] :
+            for p in self.fronts[counter-1]:
                 for l in p.dominated_set :
                     l.dominating_count -= 1
                     if l.dominating_count == 0:
