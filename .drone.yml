@@ -1,9 +1,9 @@
 kind: pipeline
-name: default
+name: mooda
 
 steps:
-- name: install-python-3.5
-  image: python:3.5
+- name: install
+  image: stracquadaniolab/ci-build-python3.6
   commands:
-  - pip install .
+  - pip install --ignore-installed .
   - mooda --help
