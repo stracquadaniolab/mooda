@@ -90,16 +90,26 @@ Running `mooda` on this input as follows:
 
 **-ag** Algorithm to run, can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences,
 Monte Carlo for small sequences and for codon usage optimization. Default=mo
+
 **-i** Input DNA sequence to optimise
+
 **-c** Configuration file to set MOODA operators, objective function and their parameters
+
 **-p** Population size, set the number of clones of the input sequence, on each clone the **it** number of operators will be applied. The **-p** parameter should increase with the sequence size. It improves solution quality, however the computing time increase as well 
+
 **-it** Number of iterations, set the number of operators to apply to each clone defined by **-p**.The **-it** parameter should increase with the sequence size. It improves solution quality more than **-p** parameter, however the computing time increase as well 
 **-a** Archive size, amount of non-dominated solutions to store at each algorithm iteration, allow to use smaller values for **-p**
+
 **-mns** Sequence block minimum size
+
 **-mxs** Sequence block maximum size
+
 **-bss** Sequence block step size, define the minimum variance between block lengths. Default=50
+
 **-js** Sequence block assembly overlap size, define the amount of overlap between sequence blocks. Default=40
+
 **-dir** Output directory for MODOA results
+
 **-gf** Allow the writing of FASTA and GENBANK files,related to MOODA solution if set as True. Default=False
 
 
