@@ -55,9 +55,9 @@ class MonteCarloAlgorithm:
         self.archive.length = options.archive_size
 
     def set_block_initialiser(self, options):
-        self.block_initialiser.max_block_size = options.block_max_size
-        self.block_initialiser.min_block_size = options.block_min_size
         self.block_initialiser.step_size = options.block_step_size
+        self.block_initialiser.max_block_size = options.block_max_size - options.block_junction_size
+        self.block_initialiser.min_block_size = options.block_min_size
 
     def load_setting(self, config, options):
         self.set_yaml_file(config)
