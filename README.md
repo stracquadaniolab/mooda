@@ -53,14 +53,14 @@ A typical `mooda` analysis consists of 3 steps:
                                                    step_size : 50
 
                                     mooda.operator.GCOptimizationOperator :
-                                                    codon_GC_table: "{your/path/codon_usage.yaml}"
+                                                    codon_GC_table: "e_coli_codon_usage.yaml"
                                                     target_gc : 50
                                                     step_size : 0.05
 
 
                                     mooda.operator.CodonUsageOperator :
                                                  step_size : 0.05
-                                                 codon_usage_table : ""
+                                                 codon_usage_table : "e_coli_codon_usage.yaml"
 
                             objective_functions :
 
@@ -74,12 +74,12 @@ A typical `mooda` analysis consists of 3 steps:
                                     mooda.objective_function.BlockNumberObjective:
 
                                     mooda.objective_function.CodonUsageObjective :
-                                                                        codon_usage_table:              "tests/mooda_test.zip/e_coli_codon_usage.yaml"
+                                                                        codon_usage_table:"e_coli_codon_usage.yaml"
                             assemblies :
                                     mooda.assembly.Gibson:
                                                             junction_size : 40
 
-an example of a MOODA configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip.
+an example of a MOODA configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip. To run MOODA with this configuration, a .yaml specifying the codon to use for each amino acid and their frequency, must be specified in the configuration file, an example is provided in mooda_test.zip, where E. coli codon distribution is taken as example.
 3. Run mooda according to your parameters.
 
 ### Example
