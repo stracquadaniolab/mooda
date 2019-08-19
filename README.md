@@ -81,7 +81,8 @@ A typical `MOODA` analysis consists of 3 steps:
                                                             junction_size : 40
 
 an example of a MOODA configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip. To run MOODA with this configuration, a .yaml specifying the codon to use for each amino acid and their frequency must be specified in the configuration file, an example is provided in mooda_test.zip, where E. coli codon distribution is taken as an example.
- 3. Run MODOA according to your parameters.
+
+3. Run MODOA according to your parameters.
 
 ### Example
 
