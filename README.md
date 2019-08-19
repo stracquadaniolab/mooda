@@ -86,7 +86,7 @@ an example of a MOODA configuration file: gc_codonusage_blockvariance_blocknumbe
 
 Running `mooda` on this input as follows:
 
-    $ mooda mooda -ag mo -i seq_5_5.gb  -c gc_codonusage_blockvariance_blocknumber.yaml -p 10 -it 20 -a 100  -mns 200 -mxs 2000 -bss 50 -js 40 -dir mooda_results_dir -gf True 
+    $ mooda mooda -ag mo -i seq_5_5.gb  -c gc_codonusage_blockvariance_blocknumber.yaml -p 10 -it 20 -a 100 -mns 200 -mxs 2000 -bss 50 -js 40 -dir mooda_results_dir -gf True 
 
 **-ag** Algorithm to run, can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences,
 Monte Carlo for small sequences and for codon usage optimization. Default=mo
