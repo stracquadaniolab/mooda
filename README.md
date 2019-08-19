@@ -36,7 +36,7 @@ Please note, that `pip` will not install non Python requirements.
 A typical `mooda` analysis consists of 3 steps:
 
 1. Select a DNA sequence in Genbank format, an example file seq_5_5.gb is provided in test/mooda_test.zip
-2. Write MOODA configuration file, a .yaml file defining operators, objective functions, assemblies strategy and their parameter, this is how a MOOA configuration file looks like:
+2. Write MOODA configuration file, a .yaml file defining operators, objective functions, assemblies strategy and their parameters, this is how a MOOA configuration file looks like:
 
 
                     Algorithm :
@@ -79,7 +79,7 @@ A typical `mooda` analysis consists of 3 steps:
                                     mooda.assembly.Gibson:
                                                             junction_size : 40
 
-an example of a mooda configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip.
+an example of a MOODA configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip.
 3. Run mooda according to your parameters.
 
 ### Example
@@ -111,10 +111,6 @@ Monte Carlo for small sequences and for codon usage optimization. Default=mo
 **-dir** Output directory for MODOA results
 
 **-gf** Allow the writing of FASTA and GENBANK files,related to MOODA solution if set as True. Default=False
-
-
-## Documentation
-The official documentation for mooda can be found on [readthedocs](https://mooda.readthedocs.io/).
 
 ## Authors
 
