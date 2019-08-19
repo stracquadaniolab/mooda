@@ -154,6 +154,7 @@ class CodonUsageObjective(ObjectiveFunction):
     def __get_codon_frequency(self, codon):
         aa = codon.translate()
         codon_freq = self.codon_usage_table.codons[aa][codon]
+
         return codon_freq
 
     def initialise(self):
@@ -162,10 +163,18 @@ class CodonUsageObjective(ObjectiveFunction):
     def eval(self, ind):
         cum_sum = 0
         for index in ind.cds_indexes_list:
-            cds = ind.sequence[index.location.start:index.location.end]
+
+            #TODO: Trying to work with different genetic codes
+            # for cds in ind.cds_list:
+            #     if index == cds.pt:
+            #         print(cds)
+
+
+            cds_seq = ind.sequence[index.location.start:index.location.end]
             if index.location.strand != 1:
-                cds = cds[::-1]
-            cds_codons = [cds[i: i + 3] for i in range(0, len(cds), 3)]
+                cds_seq = cds_seq.complement()
+                cds_seq = cds_seq[::-1]
+            cds_codons = [cds_seq[i: i + 3] for i in range(0, len(cds_seq), 3)]
             for codon in cds_codons:
                 aa = codon.translate()
                 codon_frequence = self.__get_codon_frequency(codon)

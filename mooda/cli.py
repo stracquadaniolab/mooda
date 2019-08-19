@@ -69,7 +69,7 @@ def parse_command_line_options():
         type=str,
         choices=['mo', 'mc'],
         required=False,
-        default= 'mo',
+        default='mo',
         help="Algorithm to use caa be either mo= Multi-Objective or mc= MonteCarlo.",
     )
 
@@ -99,7 +99,7 @@ def parse_command_line_options():
         "-gf",
         type=bool,
         required=False,
-        default= False,
+        default=False,
         help="if true generates genbank and fasta files related to non"
         "dominated solutions",
     )
@@ -107,8 +107,8 @@ def parse_command_line_options():
         "--archive-size",
         "-a",
         type=int,
-        required= False,
-        help="number of non dominated soltions stored at each iteration",
+        required=False,
+        help="number of non dominated solutions stored at each iteration",
     )
     parser.add_argument(
         "--block-min-size", "-mns", type=int, required=True, help="block minimum size"

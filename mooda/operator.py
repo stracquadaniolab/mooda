@@ -265,7 +265,7 @@ class GCOptimizationOperator(Operator):
             # picking a codon at random
             curr_codon = ind.cds_list[cds_pt].codons[cds_codon_index[codon_it]]
             # translate codon to aminoacid
-            curr_aa = curr_codon.translate()
+            curr_aa = curr_codon.translate(table =ind.cds_list[cds_pt].translation_table)
 
             # get current codons and directionality
             # in a hill climbing fashion 333, 5, 4, 4,

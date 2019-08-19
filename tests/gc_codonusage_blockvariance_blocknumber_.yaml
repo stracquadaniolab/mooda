@@ -1,0 +1,43 @@
+Algorithm :
+        operators :
+
+                mooda.operator.SplitBlockOperator :
+                               min_block_size : 300
+                               max_block_size : 1800
+                               step_size : 50
+
+                mooda.operator.JoinBlockOperator :
+                               min_block_size : 300
+                               max_block_size : 1800
+                               step_size : 50
+                               junction_size : 15
+
+                mooda.operator.GCOptimizationOperator :
+                                codon_GC_table : "codon_usage.yaml"
+                                target_gc : 50
+                                step_size : 0.02
+
+                mooda.operator.CodonUsageOperator :
+                                step_size : 0.01
+                                codon_usage_table : "codon_usage.yaml"
+                                                          
+        objective_functions :
+                mooda.objective_function.BlockNumberObjective:
+
+                mooda.objective_function.BlockVarianceObjective:
+                                                max_block_size : 1800
+                                                junction_size : 15
+                mooda.objective_function.GCContentObjective :
+                                                target_gc : 50
+                                                junction_size : 15
+                mooda.objective_function.CodonUsageObjective :
+                                                codon_usage_table:  "codon_usage.yaml"                               
+               
+                
+
+        assemblies :
+                mooda.assembly.Gibson:
+                                        junction_size : 15
+
+
+
