@@ -4,5 +4,5 @@
 
 __author__ = """Angelo Gaeta Giovanni Stracquadanio"""
 __email__ = 'a.gaeta@sms.ed.ac.uk'
-__version__ = '0.4.0-dev'
+__version__ = '0.4.1-dev'
 
