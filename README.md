@@ -2,9 +2,9 @@
 
 Current version: 0.4.1-dev
 
-![build](https://circleci.com/gh/stracquadaniolab/baghera/tree/master.svg?style=svg)
-![platform](https://anaconda.org/stracquadaniolab/baghera/badges/platforms.svg)
-![anaconda](https://anaconda.org/stracquadaniolab/baghera/badges/version.svg)
+![build](https://circleci.com/gh/stracquadaniolab/mooda/tree/master.svg?style=svg)
+![platform](https://anaconda.org/stracquadaniolab/mooda/badges/platforms.svg)
+![anaconda](https://anaconda.org/stracquadaniolab/mooda/badges/version.svg)
 
 MOODA is a multi-objective optimisation algorithm for sequence Design and assembly. 
 It takes as input an annoted sequence in GENBANK format, and optimize it throughout to defined operators. They to perform some of the most common operation in synthetic biology : 
@@ -35,8 +35,8 @@ Please note, that `pip` will not install non Python requirements.
 
 A typical `mooda` analysis consists of 3 steps:
 
-1. Select a DNA sequence in Genbank format.
-2. Write MOODA configuration file, a .yaml file defining operators, objective functions and assemblies strategy e.g.:
+1. Select a DNA sequence in Genbank format, an example file seq_5_5.gb is provided in test/mooda_test.zip
+2. Write MOODA configuration file, a .yaml file defining operators, objective functions, assemblies strategy and their parameter, this is how a MOOA configuration file looks like:
 
 
                     Algorithm :
@@ -60,7 +60,7 @@ A typical `mooda` analysis consists of 3 steps:
 
                                     mooda.operator.CodonUsageOperator :
                                                  step_size : 0.05
-                                                 codon_usage_table : "{your/path/codon_usage.yaml}"
+                                                 codon_usage_table : ""
 
                             objective_functions :
 
@@ -74,19 +74,19 @@ A typical `mooda` analysis consists of 3 steps:
                                     mooda.objective_function.BlockNumberObjective:
 
                                     mooda.objective_function.CodonUsageObjective :
-                                                                        codon_usage_table: "{your/path/codon_usage.yaml}"
+                                                                        codon_usage_table:              "tests/mooda_test.zip/e_coli_codon_usage.yaml"
                             assemblies :
                                     mooda.assembly.Gibson:
                                                             junction_size : 40
 
-
-3. Run mooda according to your parameters .
+an example of a mooda configuration file: gc_codonusage_blockvariance_blocknumber.yaml is already available in tests/mooda_test.zip.
+3. Run mooda according to your parameters.
 
 ### Example
 
 Running `mooda` on this input as follows:
 
-    $ mooda mooda -ag mo -i your/path/genbank_sequence.gb -c your/path/mooda_config.yaml -p 10 -it 20 -a 100  -mns 200 -mxs        2000 -bss 50  -js 40 -dir your/path/mooda_results_dir -gf True 
+    $ mooda mooda -ag mo -i seq_5_5.gb  -c gc_codonusage_blockvariance_blocknumber.yaml -p 10 -it 20 -a 100  -mns 200 -mxs        2000 -bss 50  -js 40 -dir mooda_results_dir -gf True 
 
 **-ag** Algorithm to run, can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences,
 Monte Carlo for small sequences and for codon usage optimization. Default=mo
