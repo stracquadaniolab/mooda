@@ -2,9 +2,9 @@
 
 Current version: 0.4.1-dev
 
-![build](https://circleci.com/gh/stracquadaniolab/mooda/tree/master.svg?style=svg)
-![platform](https://anaconda.org/stracquadaniolab/mooda/badges/platforms.svg)
-![anaconda](https://anaconda.org/stracquadaniolab/mooda/badges/version.svg)
+![build](https://circleci.com/gh/stracquadaniolab/baghera/tree/master.svg?style=svg)
+![platform](https://anaconda.org/stracquadaniolab/baghera/badges/platforms.svg)
+![anaconda](https://anaconda.org/stracquadaniolab/baghera/badges/version.svg)
 
 MOODA is a multi-objective optimisation algorithm for sequence Design and assembly. 
 It takes as input an annoted sequence in GENBANK format, and optimize it throughout to defined operators. They to perform some of the most common operation in synthetic biology : 
