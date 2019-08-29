@@ -53,7 +53,7 @@ def load_external_classes(config, section, class_type):
 ##############################################################
 def parse_command_line_options():
     parser = argparse.ArgumentParser(
-        description="Multi Objective Optimisation for DNA assembly."
+        description="Multi Objective Optimisation for DNA design and Assembly."
     )
     parser.add_argument(
         "--input-file",
