@@ -87,7 +87,7 @@ A typical `mooda` analysis consists of 3 steps:
                     junction_size : 40
 ```
 
-3. Run MODOA.
+3. Run MOODA.
 
 
 ### Example
