@@ -22,7 +22,7 @@
 !LICENSE
 !MANIFEST.in
 !README.md
-
+!meta.yml
 # re-ignore files/dirs
 .DS_Store
 .vscode
