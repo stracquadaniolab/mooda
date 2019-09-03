@@ -101,29 +101,40 @@ class BlockNumberObjective(ObjectiveFunction):
 
 
 class BasePairCostObjective(ObjectiveFunction):
-    def set_basepair_cost(self):
+
+    def __set_junction_size(self):
+        self.junction_size = self.yaml["Algorithm"]["objective_functions"][
+            "mooda.objective_function.BasePairCostObjective"
+        ]["junction_size"]
+
+
+    def __set_basepair_cost(self):
         self.basepair_cost = self.yaml["Algorithm"]["objective_functions"][
             "mooda.objective_function.BasePairCostObjective"
         ]["basepair_cost"]
 
-    def set_block_cost(self):
+    def __set_block_cost(self):
         self.block_cost = self.yaml["Algorithm"]["objective_functions"][
             "mooda.objective_function.BasePairCostObjective"
         ]["block_cost"]
 
     def initialise(self):
-        self.set_basepair_cost()
-        self.set_block_cost()
+        self.__set_junction_size()
+        self.__set_basepair_cost()
+        self.__set_block_cost()
 
     def eval(self, ind):
         # turn blocks attribute into a list
         # for each block in the list
         cum_sum = 0.0
 
-        for bb in ind.blocks:
-            # evaluate the length of the
-            blocksize = bb[1] - bb[0]
-            cum_sum += self.block_cost + (self.basepair_cost * blocksize)
+        for bb in ind.blocks[:-1]:
+            blocksize = (bb[1] + self.junction_size) - bb[0]
+            cum_sum += self.block_cost + blocksize * self.basepair_cost
+
+        bb = ind.blocks[-1]
+        blocksize = bb[1] - bb[0]
+        cum_sum += self.block_cost + blocksize * self.basepair_cost
         return cum_sum
 
 
@@ -199,13 +210,21 @@ class MotifObjective(ObjectiveFunction):
             ]["motif_table"]
         )
         self.repetition_table.get_motives_list()
+        self.junction_size = self.yaml["Algorithm"]["objective_functions"][
+            "mooda.objective_function.MotifObjective"
+        ]["junction_size"]
 
     def eval(self, ind):
         # objective Function value
         cum_sum = 0.0
         # for each CDS in
-        for pos in ind.blocks:
-            block_sequence = ind.sequence[pos[0]: pos[1]]
+        for pos in ind.blocks[:-1]:
+            block_sequence = ind.sequence[pos[0]: pos[1] + self.junction_size]
             for motive in self.repetition_table.motives:
                 cum_sum += block_sequence.count(motive)
+
+        pos = ind.blocks[-1]
+        block_sequence = ind.sequence[pos[0]: pos[1]]
+        for motive in self.repetition_table.motives:
+            cum_sum += block_sequence.count(motive)
         return cum_sum
