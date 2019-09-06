@@ -9,7 +9,7 @@ with open(os.path.join(setup_path, 'README.md'), encoding='utf-8') as f:
 
 setup(
     # package information
-    name = 'mooda',
+    name = 'mooda-dna',
     packages = find_packages(),
     version = '0.5.1-dev',
     description = 'Multi-Objective Optimisation algorithm for sequence Design and Assembly',
