@@ -14,6 +14,7 @@ setup(
     version = '0.6.2-dev',
     description = 'A Multi-Objective algorithm for DNA Design and Assembly',
     long_description = readme,
+    long_description_content_type="text/markdown",
     license = 'MIT',
     url='https://github.com/stracquadaniolab/mooda',
     keywords='',
