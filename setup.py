@@ -28,6 +28,7 @@ setup(
         "numpy==1.16.2",
         "pandas==0.24.2",
         "PyYAML==5.1",
+        "proglog",
     ],
     setup_requires=[],
 
