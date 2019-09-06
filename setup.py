@@ -1,5 +1,5 @@
 import os
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup, Extension
 
 # determining the directory containing setup.py
 setup_path = os.path.abspath(os.path.dirname(__file__))
@@ -12,7 +12,7 @@ setup(
     name = 'mooda-dna',
     packages = find_packages(),
     version = '0.6.0-dev',
-    description = 'Multi-Objective Optimisation algorithm for sequence Design and Assembly',
+    description = 'A Multi-Objective Optimisation algorithm for DNA Design and Assembly',
     long_description = readme,
     license = 'MIT',
     url='https://github.com/stracquadaniolab/mooda',
