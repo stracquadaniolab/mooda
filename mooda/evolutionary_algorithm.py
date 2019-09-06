@@ -12,6 +12,7 @@ from mooda.individual import Individual
 from mooda.population import Population
 from mooda.archive import Archive
 from mooda.operator import BlockInitialiserOperator
+import proglog
 
 
 
@@ -31,6 +32,7 @@ class EvolutionaryAlgorithm:
         self.time_start = None
         self.time_end = None
         self.outputfasta_gebank = None
+        self.logger = proglog.default_bar_logger('bar')
 
     # load a genbank file assuming one record per file.
 
@@ -89,9 +91,9 @@ class EvolutionaryAlgorithm:
     def run(self):
         self.time_start = datetime.datetime.now()
         self.__initialize()
-        for it in range(self.max_iterations):
+        for it in self.logger.iter_bar(iteration=list(range(self.max_iterations))):
             self.current_iteration += 1
-            logging.info("itr=" + str(self.current_iteration))
+            #logging.info("itr=" + str(self.current_iteration))
             for i in range(len(self.population.individuals)):
                 offspring = self.population.individuals[i].clone()
                 op_curr = np.random.choice(self.operators)

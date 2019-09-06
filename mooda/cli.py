@@ -108,6 +108,7 @@ def parse_command_line_options():
         "-a",
         type=int,
         required=False,
+        default=0,
         help="number of non dominated solutions stored at each iteration",
     )
     parser.add_argument(

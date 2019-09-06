@@ -86,10 +86,9 @@ class MoodaFile:
         output = os.path.join(options.output_dir, filename)
         objective_list = []
         for objective_function in ag.objective_functions:
-            label = type(objective_function).__name__
-            label = label.replace("Objective", "")
+            label = objective_function.__repr__()
             objective_list.append(label)
-        fieldnames = ["crowding_distance"] + objective_list + ["fasta", "genbank"]
+        fieldnames = ["Crowding distance"] + objective_list + ["Fragments", "Record"]
 
         individual_list = None
         if options.algorithm == "mo":
@@ -99,10 +98,11 @@ class MoodaFile:
 
         dict_list = []
         for individual in individual_list:
+            individual.objectives = [round(objective, 2) for objective in individual.objectives]
             objective_dictionary = dict(zip(objective_list, individual.objectives))
-            objective_dictionary["crowding_distance"] = individual.crowding_distance
-            objective_dictionary["fasta"] = individual.fasta
-            objective_dictionary["genbank"] = individual.genbank
+            objective_dictionary["Crowding distance"] = round(individual.crowding_distance, 2)
+            objective_dictionary["Fragments"] = individual.fasta
+            objective_dictionary["Record"] = individual.genbank
             dict_list.append(objective_dictionary)
         table = pd.DataFrame(dict_list, columns=fieldnames)
         table.to_csv(output)

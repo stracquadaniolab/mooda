@@ -51,6 +51,9 @@ class GCContentObjective(ObjectiveFunction):
         cum_sum += np.abs(gc_val - self.target_gc)
         return cum_sum / float(len(ind.blocks))
 
+    def __repr__(self):
+        return 'GC content'
+
 
 """
     Class BlockVarianceObjective
@@ -83,6 +86,9 @@ class BlockVarianceObjective(ObjectiveFunction):
         block_variance = np.var(block_length_list, dtype=np.float64)
         return block_variance
 
+    def __repr__(self):
+        return 'Block variance'
+
 
 class BlockNumberObjective(ObjectiveFunction):
     def initialise(self):
@@ -91,6 +97,9 @@ class BlockNumberObjective(ObjectiveFunction):
     def eval(self, ind):
         block_counter = len(ind.blocks)
         return block_counter
+
+    def __repr__(self):
+        return 'Block number'
 
 
 """
@@ -137,6 +146,8 @@ class BasePairCostObjective(ObjectiveFunction):
         cum_sum += self.block_cost + blocksize * self.basepair_cost
         return cum_sum
 
+    def __repr__(self):
+        return 'Cost'
 
 """
     Class CodonUsage
@@ -193,6 +204,10 @@ class CodonUsageObjective(ObjectiveFunction):
                 cum_sum += abs(codon_frequence - codon_frequence_target)
         return cum_sum
 
+    def __repr__(self):
+        return 'Codon usage'
+
+
 
 """
     Class Repetition
@@ -228,3 +243,6 @@ class MotifObjective(ObjectiveFunction):
         for motive in self.repetition_table.motives:
             cum_sum += block_sequence.count(motive)
         return cum_sum
+
+    def __repr__(self):
+        return 'Motifs & Repeats'
