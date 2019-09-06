@@ -31,7 +31,7 @@ The easiest and fastest way to install `mooda` using `conda`:
 
 Alternatively, you can install `mooda` through `pip`:
 
-    $ pip install mooda-web
+    $ pip install mooda-dna
 
 Please note, that pip will not install non Python requirements.
 
