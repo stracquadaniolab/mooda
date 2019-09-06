@@ -9,7 +9,7 @@ source:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  script: "pip install prolog; {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
   entry_points:
       - mooda = mooda.cli:main
@@ -24,7 +24,6 @@ requirements:
     - biopython >=1.73
     - pandas >=0.24
     - pyyaml
-    - prolog
 
   run:
     - python
@@ -35,7 +34,6 @@ requirements:
     - biopython >=1.73
     - pandas >=0.24
     - pyyaml
-    - prolog
 
 test:
   commands:
