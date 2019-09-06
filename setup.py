@@ -11,7 +11,7 @@ setup(
     # package information
     name = 'mooda-dna',
     packages = find_packages(),
-    version = '0.6.0-dev',
+    version = '0.6.1-dev',
     description = 'A Multi-Objective Optimisation algorithm for DNA Design and Assembly',
     long_description = readme,
     license = 'MIT',
