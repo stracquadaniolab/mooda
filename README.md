@@ -131,7 +131,7 @@ You can run `mooda` on the test data as follows:
 
 Design and assembly of DNA molecules using multi-objective optimisation.
 Angelo Gaeta, Valentin Zulkower and Giovanni Stracquadanio.
-bioRxiv XX; doi: XX
+bioRxiv. https://www.biorxiv.org/content/10.1101/761320v1
 
 ## Issues
 Please post an issue to report a bug or request new features.
