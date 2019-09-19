@@ -173,10 +173,9 @@ class CodonUsageObjective(ObjectiveFunction):
         highest_frequency = codon_dict[codon_highest_frequency]
         return highest_frequency
 
-    def __get_codon_frequency(self, codon):
-        aa = codon.translate()
+    def __get_codon_frequency(self, codon, codon_table):
+        aa = codon.translate(codon_table)
         codon_freq = self.codon_usage_table.codons[aa][codon]
-
         return codon_freq
 
     def initialise(self):
@@ -184,24 +183,19 @@ class CodonUsageObjective(ObjectiveFunction):
 
     def eval(self, ind):
         cum_sum = 0
-        for index in ind.cds_indexes_list:
-
-            #TODO: Trying to work with different genetic codes
-            # for cds in ind.cds_list:
-            #     if index == cds.pt:
-            #         print(cds)
-
-
-            cds_seq = ind.sequence[index.location.start:index.location.end]
-            if index.location.strand != 1:
+        for cds in ind.cds_list:
+            cds_codon_table =cds.translation_table_target
+            cds_seq = ind.sequence[cds.pt.location.start:cds.pt.location.end]
+            if cds.pt.location.strand != 1:
                 cds_seq = cds_seq.complement()
                 cds_seq = cds_seq[::-1]
             cds_codons = [cds_seq[i: i + 3] for i in range(0, len(cds_seq), 3)]
             for codon in cds_codons:
                 aa = codon.translate()
-                codon_frequence = self.__get_codon_frequency(codon)
-                codon_frequence_target = self.__get_codon_highest_frequency(aa)
-                cum_sum += abs(codon_frequence - codon_frequence_target)
+                if len(codon) == 3:
+                    codon_frequence = self.__get_codon_frequency(codon,cds_codon_table)
+                    codon_frequence_target = self.__get_codon_highest_frequency(aa)
+                    cum_sum += abs(codon_frequence - codon_frequence_target)
         return cum_sum
 
     def __repr__(self):

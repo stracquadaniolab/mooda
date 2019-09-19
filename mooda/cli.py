@@ -91,7 +91,7 @@ def parse_command_line_options():
         "--population-size",
         "-p",
         type=int,
-        required= False,
+        required=False,
         help="number of individuals per iteration",
     )
     parser.add_argument(
@@ -101,7 +101,7 @@ def parse_command_line_options():
         required=False,
         default=False,
         help="if true generates genbank and fasta files related to non"
-        "dominated solutions",
+             "dominated solutions",
     )
     parser.add_argument(
         "--archive-size",
@@ -124,8 +124,45 @@ def parse_command_line_options():
         "--block-junction-size", "-js", type=int, required=False, default=40, help="block junction size"
     )
     parser.add_argument(
+        "--codon-usage-table", "-cut",
+        choices=[1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 ],
+        required=False, default=1, help=
+        """
+        codon usage table
+        
+         1 = Standard
+         2 = Vertebrate Mitochondrial
+         3 = Yeast Mitochondrial
+         4 = Mold Mitochondrial; Protozoan Mitochondrial; Coelenterate Mitochondrial; Mycoplasma; Spiroplasma
+         5 = Invertebrate Mitochondrial
+         6 = Ciliate Nuclear; Dasycladacean Nuclear; Hexamita Nuclear
+         9 = Echinoderm Mitochondrial; Flatworm Mitochondrial
+         10 = Euplotid Nuclear
+         11 = Bacterial, Archaeal and Plant Plastid
+         12 = Alternative Yeast Nuclear
+         13 = Ascidian Mitochondrial
+         14 = Alternative Flatworm Mitochondrial
+         15 =  Blepharisma Macronuclear 
+         16 = Chlorophycean Mitochondrial
+         21 = Trematode Mitochondrial
+         22 = Scenedesmus obliquus Mitochondrial
+         23 = Thraustochytrium Mitochondrial 
+         24 = Pterobranchia Mitochondrial 
+         25 = Candidate Division SR1 and Gracilibacteri
+         26 = Pachysolen tannophilus Nuclear 
+         27 = Karyorelict Nuclear
+         28 = Condylostoma Nuclear
+         29 = Mesodinium Nuclear 
+         30 = Peritrich Nuclear
+         31 = Blastocrithidia Nuclear
+         32 = Balanophoraceae Plastid
+         c = custom   
+        """
+    )
+    parser.add_argument(
         "--output-dir", "-dir", type=str, required=True, help="output directory"
     )
+
     options = parser.parse_args()
     return options
 

@@ -19,6 +19,7 @@ import proglog
 class EvolutionaryAlgorithm:
     def __init__(self):
         self.gebank_record = None
+        self.target_genetic_code = None
         self.population = Population()
         self.operators = []
         self.objective_functions = []
@@ -41,6 +42,9 @@ class EvolutionaryAlgorithm:
 
     def load_sequence(self, options):
         self.gebank_record = SeqIO.read(open(options.input_file, "r"), "genbank")
+
+    def set_genetic_code(self, options):
+        self.target_genetic_code = options.codon_usage_table
 
     def add_operator(self, op):
         self.operators.append(op)
@@ -71,16 +75,20 @@ class EvolutionaryAlgorithm:
     def load_setting(self, config, options):
         self.set_yaml_file(config)
         self.load_sequence(options)
+        self.set_genetic_code(options)
         self.set_population_size(options)
         self.set_max_iterations(options)
         self.set_genbank_fasta_output(options)
         self.set_archive_length(options)
         self.set_block_initialiser(options)
 
-    def __initialize(self):
+    def __initialize(self,options):
         for it in range(self.population.size):
             ind = Individual(self.gebank_record)
-            ind.initialise()
+            ind.initialise(options)
+
+
+
             # evaluate objective functions for each individual
             self.block_initialiser.apply(ind)
             #self.assemblies[0].apply(ind)
@@ -90,7 +98,7 @@ class EvolutionaryAlgorithm:
 
     def run(self):
         self.time_start = datetime.datetime.now()
-        self.__initialize()
+        self.__initialize(self.target_genetic_code)
         for it in self.logger.iter_bar(iteration=list(range(self.max_iterations))):
             self.current_iteration += 1
             #logging.info("itr=" + str(self.current_iteration))
@@ -118,6 +126,26 @@ class EvolutionaryAlgorithm:
         self.time_end = datetime.datetime.now()
         duration = "duration= " + str(self.time_end - self.time_start)
         logging.info(duration)
+        # for ind in self.population.individuals:
+        #     for cds in ind.cds_list:
+        #         if cds.strand ==1:
+        #             from_seq = ind.sequence[cds.pt.location.start:cds.pt.location.end].translate()
+        #             from_cds = cds.seq.translate()
+        #             if from_cds != from_seq:
+        #                 print("ERRORE")
+        #         elif cds.strand!=1:
+        #             from_seq = ind.sequence[cds.pt.location.start:cds.pt.location.end]
+        #             from_seq = from_seq.complement()
+        #             from_seq = from_seq[::-1]
+        #             from_seq = from_seq.translate()
+        #             from_cds = cds.seq.translate()
+        #             print("from_Sequence=",from_seq)
+        #             print("\n")
+        #             print("from_cds=",from_cds)
+        #             if from_cds != from_seq:
+        #                 print("ERRORE on strand -1")
+
+
 
     def __eval_individual(self, ind):
         ind.objectives = []

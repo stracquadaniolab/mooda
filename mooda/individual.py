@@ -106,13 +106,35 @@ class Individual:
             if self.blocks[block_index][1] == self.blocks[next_block][0]:
                 self.blocks[block_index][1] = self.blocks[block_index][1] + junction_size
 
-    def initialise(self):
+    def __sequence_genetic_code_recoding(self,cds):
+            if cds.translation_table_origin != cds.translation_table_target:
+
+                cds.build_sequence_from_codons()
+                recoded_sequence = cds.seq
+
+                if cds.strand != 1:
+                    recoded_sequence= recoded_sequence.complement()
+                    recoded_sequence = recoded_sequence[::-1]
+                self.sequence = (
+                    self.sequence[: cds.pt.location.start]
+                    + recoded_sequence
+                    + self.sequence[cds.pt.location.end:]
+                )
+
+
+
+
+    def initialise(self, genetic_code_table):
         self.__get_feature_CDS_list()
         self.__get_feature_UTR_list()
         for pt in self.cds_indexes_list:
             cds = Coding()
-            cds.intialise_cds(self, pt)
+            cds.intialise_cds(self, pt, genetic_code_table)
+            self.__sequence_genetic_code_recoding(cds)
             self.cds_list.append(cds)
+
+
+
         for pt in self.utr_indexes_list:
             utr = NonCoding()
             utr.intialise_utr(self, pt)

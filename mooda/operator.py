@@ -193,16 +193,6 @@ class JoinBlockOperator(Operator):
 
 
 
-            # while first_end - first_start > self.max_block_size or \
-            #     second_end - second_start > (self.max_block_size + self.step_size):
-            #     second_end = ind.blocks[new_block_pt][1]
-            #     first_end = random.randrange(first_start + self.min_block_size,
-            #                                  second_end - self.min_block_size, self.step_size)
-            #     second_start = first_end
-            #     second_end = ind.blocks[new_block_pt][1]
-
-
-
     def initialise(self):
         self.__set_junction_size()
         self.__set_step_size()
@@ -264,11 +254,14 @@ class GCOptimizationOperator(Operator):
         while not accepted_step and codon_it < len(ind.cds_list[cds_pt].codons):
             # picking a codon at random
             curr_codon = ind.cds_list[cds_pt].codons[cds_codon_index[codon_it]]
+            #checking that the codon is a triplet
+            if len(curr_codon)!=3:
             # translate codon to aminoacid
-            curr_aa = curr_codon.translate(table =ind.cds_list[cds_pt].translation_table)
+                break
+            curr_aa = curr_codon.translate(table =ind.cds_list[cds_pt].translation_table_target)
 
-            # get current codons and directionality
-            # in a hill climbing fashion 333, 5, 4, 4,
+        # get current codons and directionality
+        # in a hill climbing fashion 333, 5, 4, 4,
             if cds_gc < self.target_gc:
                 curr_aa_codons = self.codon_GC_table.get_codons(
                     str(curr_aa), order_asc_gc=False
@@ -280,7 +273,7 @@ class GCOptimizationOperator(Operator):
             else:
                 curr_aa_codons = None
 
-            # computing stop criterion
+        # computing stop criterion
             if curr_aa_codons and (curr_aa_codons[0] != curr_codon):
                 ind.cds_list[cds_pt].codons[cds_codon_index[codon_it]] = Seq(
                     curr_aa_codons[0], IUPAC.unambiguous_dna
@@ -296,9 +289,14 @@ class GCOptimizationOperator(Operator):
 
             # updating individual sequence
         ind.cds_list[cds_pt].build_sequence_from_codons()
+        edited_cds = ind.cds_list[cds_pt].seq
+        if ind.cds_list[cds_pt].strand != 1:
+            edited_cds = edited_cds.complement()
+            edited_cds = edited_cds[::-1]
+
         ind.sequence = (
-            ind.sequence[:ind.cds_list[cds_pt].pt.location.start]
-            + ind.cds_list[cds_pt].seq
+            ind.sequence[: ind.cds_list[cds_pt].pt.location.start]
+            + edited_cds
             + ind.sequence[ind.cds_list[cds_pt].pt.location.end:]
         )
 
@@ -344,19 +342,30 @@ class CodonUsageOperator(Operator):
         )
         for index in codons_indexes:
             chosen_codon = ind.cds_list[cds_pt].codons[index]
-            aa = chosen_codon.translate()
-            new_codon = np.random.choice(
-                list(self.codon_usage_table.codons[aa].keys()),
-                p=list(self.codon_usage_table.codons[aa].values()),
-            )
-            new_codon = Seq(new_codon, IUPAC.unambiguous_dna)
-            ind.cds_list[cds_pt].codons[index] = new_codon
+            if len(chosen_codon) ==3:
+                aa = chosen_codon.translate(table=ind.cds_list[cds_pt].translation_table_target)
+                new_codon = np.random.choice(
+                    list(self.codon_usage_table.codons[aa].keys()),
+                    p=list(self.codon_usage_table.codons[aa].values()),
+                )
+                new_codon = Seq(new_codon, IUPAC.unambiguous_dna)
+                ind.cds_list[cds_pt].codons[index] = new_codon
+
         ind.cds_list[cds_pt].build_sequence_from_codons()
+        edited_cds =ind.cds_list[cds_pt].seq
+
+        if ind.cds_list[cds_pt].strand != 1:
+            edited_cds = edited_cds.complement()
+            edited_cds = edited_cds[::-1]
+
         ind.sequence = (
             ind.sequence[: ind.cds_list[cds_pt].pt.location.start]
-            + ind.cds_list[cds_pt].seq
+            + edited_cds
             + ind.sequence[ind.cds_list[cds_pt].pt.location.end:]
         )
+
+
+
 
 
 """
@@ -417,14 +426,15 @@ class MotifOperator(Operator):
             # if the repetition is longer then 2 codon avoid the first and the last codon
             selected_codon_index = random.randint(start_codon, end_codon)
             selected_codon = ind.cds_list[cds_pt].codons[selected_codon_index]
-            aa = selected_codon.translate()
-            synonimous_codons = list(self.codon_usage_table.codons[aa].keys())
-            if len(synonimous_codons) > 1:
-                synonimous_codons.remove(selected_codon)
-                new_codon = random.choice(synonimous_codons)
-                new_codon = Seq(new_codon, IUPAC.unambiguous_dna)
-                ind.cds_list[cds_pt].codons[selected_codon_index] = new_codon
-                ind.cds_list[cds_pt].build_sequence_from_codons()
+            if len(selected_codon) == 3:
+                aa = selected_codon.translate(table=ind.cds_list[cds_pt].translation_table_target)
+                synonimous_codons = list(self.codon_usage_table.codons[aa].keys())
+                if len(synonimous_codons) > 1:
+                    synonimous_codons.remove(selected_codon)
+                    new_codon = random.choice(synonimous_codons)
+                    new_codon = Seq(new_codon, IUPAC.unambiguous_dna)
+                    ind.cds_list[cds_pt].codons[selected_codon_index] = new_codon
+                    ind.cds_list[cds_pt].build_sequence_from_codons()
 
     def initialise(self):
         self.__set_repetition_table()
@@ -445,6 +455,10 @@ class MotifOperator(Operator):
             for ip_iter in range(op_iter):
                 motive = random.choice(to_remove)
                 self.__remove_motive(motive, ind, cds_pt)
+
+            if ind.cds_list[cds_pt].strand != 1:
+                ind.cds_list[cds_pt].seq = ind.cds_list[cds_pt].seq.complement()
+                ind.cds_list[cds_pt].seq = ind.cds_list[cds_pt].seq[::-1]
             ind.sequence = (
                 ind.sequence[: ind.cds_list[cds_pt].pt.location.start]
                 + ind.cds_list[cds_pt].seq
