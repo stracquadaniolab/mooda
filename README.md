@@ -1,6 +1,10 @@
 # MOODA: Multi-Objective Optimization for DNA sequence Design and Assembly
 
+<<<<<<< HEAD
 Current version: 0.6.0-dev
+=======
+Current version: 0.7.3-dev
+>>>>>>> master
 
 ![build](http://drone.stracquadaniolab.org/api/badges/stracquadaniolab/mooda/status.svg)
 ![platform](https://anaconda.org/stracquadaniolab/mooda/badges/platforms.svg)
@@ -31,7 +35,7 @@ The easiest and fastest way to install `mooda` using `conda`:
 
 Alternatively, you can install `mooda` through `pip`:
 
-    $ pip install mooda
+    $ pip install mooda-dna
 
 Please note, that pip will not install non Python requirements.
 
@@ -131,7 +135,7 @@ You can run `mooda` on the test data as follows:
 
 Design and assembly of DNA molecules using multi-objective optimisation.
 Angelo Gaeta, Valentin Zulkower and Giovanni Stracquadanio.
-bioRxiv XX; doi: XX
+bioRxiv. https://www.biorxiv.org/content/10.1101/761320v1
 
 ## Issues
 Please post an issue to report a bug or request new features.
