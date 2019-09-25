@@ -3,7 +3,7 @@
 <<<<<<< HEAD
 Current version: 0.6.0-dev
 =======
-Current version: 0.7.3-dev
+Current version: 0.8.0-dev
 >>>>>>> master
 
 ![build](http://drone.stracquadaniolab.org/api/badges/stracquadaniolab/mooda/status.svg)

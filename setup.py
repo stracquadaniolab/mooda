@@ -15,7 +15,7 @@ setup(
     version = '0.6.0-dev',
     description = 'Multi-Objective Optimisation algorithm for sequence Design and Assembly',
 =======
-    version = '0.7.3-dev',
+    version = '0.8.0-dev',
     description = 'A Multi-Objective algorithm for DNA Design and Assembly',
 >>>>>>> master
     long_description = readme,
