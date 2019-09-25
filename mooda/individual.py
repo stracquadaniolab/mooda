@@ -2,9 +2,9 @@
     Class Individual
 
     Represents solution to a multi-objective DNA assembly problem
-
 '''
 import copy
+import math
 from mooda.dna_component import Coding
 from mooda.dna_component import NonCoding
 
@@ -15,7 +15,6 @@ class Individual:
         self.gebank_record = gebank_record
         self.sequence = self.gebank_record.seq
         self.features = self.gebank_record.features
-
         # list of blocks for assembly
         self.blocks = [[0, len(gebank_record.seq)]]
         # variables for the optimisation
@@ -49,8 +48,7 @@ class Individual:
         return str(self.objectives)
 
     def __eq__(self, other):
-        if self.sequence == other.sequence \
-            and self.blocks == other.blocks:
+        if self.sequence == other.sequence and self.blocks == other.blocks:
             return True
         else:
             return False
@@ -113,7 +111,7 @@ class Individual:
                 recoded_sequence = cds.seq
 
                 if cds.strand != 1:
-                    recoded_sequence= recoded_sequence.complement()
+                    recoded_sequence = recoded_sequence.complement()
                     recoded_sequence = recoded_sequence[::-1]
                 self.sequence = (
                     self.sequence[: cds.pt.location.start]
@@ -121,10 +119,36 @@ class Individual:
                     + self.sequence[cds.pt.location.end:]
                 )
 
+    def __get_overlapping_codons_with_next_cds(self, cds, next_cds):
+        if next_cds.pt.location.start < cds.pt.location.end:
+            overlap_size = cds.pt.location.end - next_cds.pt.location.start
+            forbidden_codon_size = math.ceil(overlap_size / 3)
+            cds.overlapping_codons_indexes = cds.overlapping_codons_indexes + list(
+                range((len(cds.codons) - forbidden_codon_size), len(cds.codons)))
 
+    def __get_overlapping_codons_with_previous_cds(self, cds, previous_cds):
+        if previous_cds.pt.location.end > cds.pt.location.start:
+            overlap_size = previous_cds.pt.location.end - cds.pt.location.start
+            forbidden_codon_size = math.ceil(overlap_size / 3)
+            cds.overlapping_codons_indexes = cds.overlapping_codons_indexes + list(range(0, forbidden_codon_size))
 
+    def __get_overlapping_codons(self):
+        for cds_index in range(0, len(self.cds_list)):
+            cds = self.cds_list[cds_index]
+            if cds_index == 0:
+                next_cds = self.cds_list[cds_index + 1]
+                self.__get_overlapping_codons_with_next_cds(cds, next_cds)
+            elif 0 < cds_index < len(self.cds_list)-1:
+                next_cds = self.cds_list[cds_index + 1]
+                previous_cds = self.cds_list[cds_index - 1]
+                self.__get_overlapping_codons_with_next_cds(cds, next_cds)
+                self.__get_overlapping_codons_with_previous_cds(cds, previous_cds)
+            elif cds_index == len(self.cds_list)-1:
+                previous_cds = self.cds_list[cds_index - 1]
+                self.__get_overlapping_codons_with_previous_cds(cds, previous_cds)
 
     def initialise(self, genetic_code_table):
+        # initialising CDS
         self.__get_feature_CDS_list()
         self.__get_feature_UTR_list()
         for pt in self.cds_indexes_list:
@@ -132,9 +156,9 @@ class Individual:
             cds.intialise_cds(self, pt, genetic_code_table)
             self.__sequence_genetic_code_recoding(cds)
             self.cds_list.append(cds)
+        self.__get_overlapping_codons()
 
-
-
+        # Initialisng UTR
         for pt in self.utr_indexes_list:
             utr = NonCoding()
             utr.intialise_utr(self, pt)

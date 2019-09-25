@@ -124,8 +124,8 @@ def parse_command_line_options():
         "--block-junction-size", "-js", type=int, required=False, default=40, help="block junction size"
     )
     parser.add_argument(
-        "--codon-usage-table", "-cut",
-        choices=[1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 ],
+        "--target-genetic-code", "-gc",
+        choices=[1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32],
         required=False, default=1, help=
         """
         codon usage table
@@ -156,7 +156,6 @@ def parse_command_line_options():
          30 = Peritrich Nuclear
          31 = Blastocrithidia Nuclear
          32 = Balanophoraceae Plastid
-         c = custom   
         """
     )
     parser.add_argument(

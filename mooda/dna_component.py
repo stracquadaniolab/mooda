@@ -3,7 +3,6 @@ from Bio.Alphabet import DNAAlphabet
 import Bio.Data.CodonTable
 from Bio.Alphabet import IUPAC
 import random
-import copy
 
 class DNAComponent:
     def __init__(self):
@@ -22,6 +21,8 @@ class Coding(DNAComponent):
         self.translation = None
         self.origin_table_dict = None
         self.target_table_dict = None
+        # list of overlapping codon to not edit by sequence operators
+        self.overlapping_codons_indexes = []
 
     def __get_CDS(self, ind):
         self.seq = ind.sequence[self.pt.location.start : self.pt.location.end]
@@ -84,6 +85,11 @@ class Coding(DNAComponent):
         self.codons = [self.seq[i : i + 3] for i in range(0, len(self.seq), 3)]
 
 
+    def build_sequence_from_codons(self):
+        self.seq = sum(self.codons, Seq("", DNAAlphabet()))
+
+
+
     def intialise_cds(self, ind, pt,genetic_code_table):
         self.pt = pt
         self.strand = self.pt.location.strand
@@ -92,8 +98,6 @@ class Coding(DNAComponent):
         self.__setting_origin_and_target_genetic_code(genetic_code_table)
         self.__recoding_genetic_code()
 
-    def build_sequence_from_codons(self):
-        self.seq = sum(self.codons, Seq("", DNAAlphabet()))
 
 
 

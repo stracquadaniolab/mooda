@@ -191,8 +191,6 @@ class JoinBlockOperator(Operator):
             ind.blocks.insert((new_block_pt + 1), newblock)
 
 
-
-
     def initialise(self):
         self.__set_junction_size()
         self.__set_step_size()
@@ -255,10 +253,10 @@ class GCOptimizationOperator(Operator):
             # picking a codon at random
             curr_codon = ind.cds_list[cds_pt].codons[cds_codon_index[codon_it]]
             #checking that the codon is a triplet
-            if len(curr_codon)!=3:
+            if len(curr_codon) != 3 or codon_it in ind.cds_list[cds_pt].overlapping_codons_indexes:
             # translate codon to aminoacid
                 break
-            curr_aa = curr_codon.translate(table =ind.cds_list[cds_pt].translation_table_target)
+            curr_aa = curr_codon.translate(table=ind.cds_list[cds_pt].translation_table_target)
 
         # get current codons and directionality
         # in a hill climbing fashion 333, 5, 4, 4,
@@ -342,7 +340,7 @@ class CodonUsageOperator(Operator):
         )
         for index in codons_indexes:
             chosen_codon = ind.cds_list[cds_pt].codons[index]
-            if len(chosen_codon) ==3:
+            if len(chosen_codon) == 3 and index not in ind.cds_list[cds_pt].overlapping_codons_indexes:
                 aa = chosen_codon.translate(table=ind.cds_list[cds_pt].translation_table_target)
                 new_codon = np.random.choice(
                     list(self.codon_usage_table.codons[aa].keys()),
@@ -363,10 +361,6 @@ class CodonUsageOperator(Operator):
             + edited_cds
             + ind.sequence[ind.cds_list[cds_pt].pt.location.end:]
         )
-
-
-
-
 
 """
     Class Repetition
@@ -426,7 +420,7 @@ class MotifOperator(Operator):
             # if the repetition is longer then 2 codon avoid the first and the last codon
             selected_codon_index = random.randint(start_codon, end_codon)
             selected_codon = ind.cds_list[cds_pt].codons[selected_codon_index]
-            if len(selected_codon) == 3:
+            if len(selected_codon) == 3 and selected_codon_index not in ind.cds_list[cds_pt].overlapping_codons_indexes:
                 aa = selected_codon.translate(table=ind.cds_list[cds_pt].translation_table_target)
                 synonimous_codons = list(self.codon_usage_table.codons[aa].keys())
                 if len(synonimous_codons) > 1:
