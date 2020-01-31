@@ -3,6 +3,9 @@
 *
 
 # accepted files
+!.github
+!.github/*
+!.github/**
 !docs
 !docs/*
 !tests
