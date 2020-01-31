@@ -1,6 +1,6 @@
 # MOODA: Multi-Objective Optimization for DNA sequence Design and Assembly
 
-Current version: 0.8.0-dev
+Current version: 0.8.1-dev
 
 ![build](https://github.com/stracquadaniolab/mooda/workflows/Release%20package/badge.svg)
 ![platform](https://anaconda.org/stracquadaniolab/mooda/badges/platforms.svg)
