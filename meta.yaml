@@ -37,7 +37,7 @@ requirements:
 
 test:
   commands:
-    - pip install proglog; mooda --help
+    - mooda --help
 
 about:
   home: https://github.com/stracquadaniolab/mooda

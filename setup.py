@@ -11,13 +11,8 @@ setup(
     # package information
     name = 'mooda-dna',
     packages = find_packages(),
-<<<<<<< HEAD
-    version = '0.6.0-dev',
-    description = 'Multi-Objective Optimisation algorithm for sequence Design and Assembly',
-=======
     version = '0.8.0-dev',
     description = 'A Multi-Objective algorithm for DNA Design and Assembly',
->>>>>>> master
     long_description = readme,
     long_description_content_type="text/markdown",
     license = 'MIT',
@@ -34,7 +29,6 @@ setup(
         "numpy==1.16.2",
         "pandas==0.24.2",
         "PyYAML==5.1",
-        "proglog",
     ],
     setup_requires=[],
 
