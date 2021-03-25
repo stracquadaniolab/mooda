@@ -28,7 +28,7 @@ setup(
         "biopython==1.73",
         "numpy==1.16.2",
         "pandas==0.24.2",
-        "PyYAML==5.1",
+        "PyYAML==5.4",
     ],
     setup_requires=[],
 
