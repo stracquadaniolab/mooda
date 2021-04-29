@@ -9,22 +9,22 @@ Current version: 0.10.0
 MOODA is a multi-objective optimisation algorithm for DNA sequence design and assembly.
 
 It takes in input an annotated sequence in GenBank format, and optimize it with
-respect to user-specified objectives.
+respect to user-defined objectives.
 
-Currently, some of the most common common operations in synthetic biology are implemented:
+Currently, some of the most common common operations in synthetic biology are
+built-in, including: 
 
-- The `GC content operator` reduces the difference between the GC content of a
-  sequence and the GC content set as the target. It introduces silent mutation
-  inside CDSs, to increase or decrease the GC content.
+- The `GCOptimizationOperator` introduces silent mutation in coding regions to
+  obtain DNA constructs with a user-defined GC content.
 
-- The `Codon usage` operator allows the recoding of CDSs according to the
-  specified codon distribution. At each iteration, a specified number of codons
-  is replaced by synonymous
+- The `CodonUsageOperator` probabilistically recodes coding regions by
+  probabilistically selecting the most frequent codon for an aminoacid in a host
+  organism.
 
-- The `BlockJoin` and `BlockSplit` operators allow the division of the
-  sequence into blocks, given a minimum and maximum size. After the
-  optimisation, each block is then adapted to the selected assembly method.
-  Currently, only Gibson assembly is supported.
+- The `BlockJoin` and `BlockSplit` operators allow the division of a sequence
+  into fragments (or blocks). After the optimisation, each block is then adapted
+  to the assembly method selected by the user. Currently, only the Gibson
+  assembly is supported.
 
 New operators, objective functions or assembly method can be added by extending
 the `Operator`, `ObjectiveFunction` and `Assembly` classes.
@@ -105,37 +105,35 @@ Results will be available in the `example-opt` directory, where you will find:
 
 #### Command line options
 
-- **-ag**: Algorithm to run can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences, Monte Carlo for small sequences and codon usage optimization. Default: mo.
-
 - **-i**: Input DNA sequence to process.
 
-- **-c**: Configuration file to set MOODA operators, objective functions and
-  their parameters.
+- **-c**: Configuration file to set operators, objective functions and their
+  parameters.
 
-- **-p**: Pool size. The -p parameter should increase with the sequence size. It
-  improves solution quality, however the computing time increase as well.
+- **-p**: Pool size. Number of candidate solutions sampled at each iteration.
+  The pool size should increase with the length and complexity of the input
+  sequence.
 
-- **-it**: Number of iterations. The -it parameter should increase with the
-  sequence size. It improves solution quality more than -p parameter, however
-  the computing time increase as well.
+- **-it**: Number of iterations.  The number of iterations should increase with
+  the length and complexity of the input sequence, although it will take longer
+  to run.
 
-- **-a**: Archive size, amount of non-dominated solutions to store at each
-  algorithm iteration, allow to use smaller values for the pool size.
+- **-a**: Archive size. The number of non-dominated solutions to store at each
+  iteration, which allows to use smaller pools for improved efficiency.
 
-- **-mns**: Sequence block minimum size.
+- **-mns**: Block minimum size.
 
-- **-mxs**: Sequence block maximum size.
+- **-mxs**: Block maximum size.
 
 - **-bss**: Sequence block step size, define the minimum variance between block
-  lengths. Default: 50.
+  size. Default: 50.
 
 - **-js**: Sequence block assembly overlap size, define the amount of overlap
-  between sequence blocks. Default: 40.
+  between blocks. Default: 40.
 
 - **-dir**: Output directory for MOODA results.
 
-- **-gf**: Allow the writing of FASTA and GenBank files, related to MOODA
-  solution if set as True. Default: False.
+- **-gf**: Allow the writing of FASTA and GenBank files. Default: False.
 
 ## Authors
 
