@@ -8,14 +8,13 @@
 !.github/**
 !docs
 !docs/*
-!tests
-!tests/*
-!tests/**
+!examples
+!examples/*
+!examples/**
 !mooda
 !mooda/*
 !mooda/**
 !*.py
-!.drone.yml
 !.bumpversion.cfg
 !.editorconfig
 !.gitattributes
@@ -26,6 +25,7 @@
 !MANIFEST.in
 !README.md
 !meta.yaml
+
 # re-ignore files/dirs
 .DS_Store
 .vscode

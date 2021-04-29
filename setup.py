@@ -11,7 +11,7 @@ setup(
     # package information
     name = 'mooda-dna',
     packages = find_packages(),
-    version = '0.8.2-dev',
+    version = '0.8.2',
     description = 'A Multi-Objective algorithm for DNA Design and Assembly',
     long_description = readme,
     long_description_content_type="text/markdown",
@@ -28,7 +28,7 @@ setup(
         "biopython==1.73",
         "numpy==1.16.2",
         "pandas==0.24.2",
-        "PyYAML==5.1",
+        "PyYAML==5.4",
     ],
     setup_requires=[],
 
