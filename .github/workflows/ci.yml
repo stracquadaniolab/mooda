@@ -23,7 +23,7 @@ jobs:
         run: python setup.py sdist bdist_wheel
 
       - name: "Publish package on PyPi"
-        run: twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{secrets.PYPI_PASSWORD}} dist/*
+        run: twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} dist/*
 
       - name: "Setup Conda"
         uses: s-weigand/setup-conda@v1
@@ -51,10 +51,11 @@ jobs:
       - name: "Build Docker image"
         run: |
           docker build . \
+            -f docker/Dockerfile \
             -t ghcr.io/stracquadaniolab/mooda:latest \
-            -t ghcr.io/stracquadaniolab/mooda:v0.8.2
+            -t ghcr.io/stracquadaniolab/mooda:v0.9.0
 
       - name: "Release Docker image"
         run: |
           docker push ghcr.io/stracquadaniolab/mooda:latest
-          docker push ghcr.io/stracquadaniolab/mooda:v0.8.2
+          docker push ghcr.io/stracquadaniolab/mooda:v0.9.0
