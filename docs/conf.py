@@ -24,9 +24,9 @@ copyright = 'Angelo Gaeta Giovanni Stracquadanio'
 author = 'Angelo Gaeta Giovanni Stracquadanio'
 
 # The short X.Y version
-version = '0.9.5'
+version = '0.10.0'
 # The full version, including alpha/beta/rc tags
-release = '0.9.5'
+release = '0.10.0'
 
 
 # -- General configuration ---------------------------------------------------
