@@ -33,8 +33,8 @@ jobs:
     #     run: |
     #         mkdir conda-build
     #         conda build . --no-build-id --numpy ${{ matrix.numpy }} --output-folder ./conda-build
-    #         conda convert -p osx-64 ./conda-build/linux-64/mooda-v0.9.4-py37_0.tar.bz2 --output-dir ./conda-build/
-    #         conda convert -p linux-32 ./conda-build/linux-64/mooda-v0.9.4-py37_0.tar.bz2 --output-dir ./conda-build/
+    #         conda convert -p osx-64 ./conda-build/linux-64/mooda-v0.9.5-py37_0.tar.bz2 --output-dir ./conda-build/
+    #         conda convert -p linux-32 ./conda-build/linux-64/mooda-v0.9.5-py37_0.tar.bz2 --output-dir ./conda-build/
     #         anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u ${{ secrets.ANACONDA_USERNAME }} ./conda-build/**/mooda*.bz2
 
       - name: Login to GitHub Container Registry
@@ -46,12 +46,12 @@ jobs:
           docker build . \
             -f docker/Dockerfile \
             -t ghcr.io/stracquadaniolab/mooda:latest \
-            -t ghcr.io/stracquadaniolab/mooda:v0.9.4
+            -t ghcr.io/stracquadaniolab/mooda:v0.9.5
 
       - name: "Release Docker image"
         run: |
           docker push ghcr.io/stracquadaniolab/mooda:latest
-          docker push ghcr.io/stracquadaniolab/mooda:v0.9.4
+          docker push ghcr.io/stracquadaniolab/mooda:v0.9.5
 
       - name: "Install PIP required packages"
         run: pip install wheel twine

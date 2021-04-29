@@ -11,7 +11,7 @@ setup(
     # package information
     name = 'mooda-dna',
     packages = find_packages(),
-    version = '0.9.4',
+    version = '0.9.5',
     description = 'A Multi-Objective algorithm for DNA Design and Assembly',
     long_description = readme,
     long_description_content_type="text/markdown",
