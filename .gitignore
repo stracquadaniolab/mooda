@@ -14,6 +14,9 @@
 !mooda
 !mooda/*
 !mooda/**
+!docker
+!docker/*
+!docker/**
 !*.py
 !.bumpversion.cfg
 !.editorconfig

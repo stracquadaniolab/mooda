@@ -1,8 +1,8 @@
-# MOODA: Multi-Objective Optimization for DNA sequence Design and Assembly
+# MOODA: Multi-Objective Optimization for DNA design and assembly
 
 Current version: 0.8.2
 
-![build](https://github.com/stracquadaniolab/mooda/workflows/Release%20package/badge.svg)
+![build](https://github.com/stracquadaniolab/mooda/workflows/release/badge.svg)
 ![platform](https://anaconda.org/stracquadaniolab/mooda/badges/platforms.svg)
 ![anaconda](https://anaconda.org/stracquadaniolab/mooda/badges/version.svg)
 
@@ -31,15 +31,25 @@ the `Operator`, `ObjectiveFunction` and `Assembly` classes.
 
 ## Installation
 
-The easiest and fastest way to install `mooda` using `conda`:
+The easiest and fastest method to use `mooda` is using Docker:
 
+```
+    docker pull ghcr.io/stracquadaniolab/mooda
+```
+
+You can also install `mooda` using `conda`:
+
+```
     $ conda install -c stracquadaniolab -c bioconda -c conda-forge mooda
+```
 
-Alternatively, you can install `mooda` through `pip`:
+or using `pip`:
 
+```
     $ pip install mooda-dna
+```
 
-Please note, that pip will not install non Python requirements.
+Please note, that `pip` will not install non Python requirements.
 
 ## Getting started
 
@@ -81,7 +91,7 @@ Extract test data as follows:
 Run `mooda` as follows:
 
 ```
-    $ mooda -ag mo -i seq_5_5.gb  -c config.yaml -p 10 -it 20 -a 100 -mns 200 -mxs 2000 -bss 50 -js 40 -dir example-opt -gf True
+    $ docker run -it --rm -v $PWD:$PWD -w $PWD ghcr.io/stracquadaniolab/mooda -ag mo -i seq_5_5.gb  -c config.yaml -p 10 -it 20 -a 100 -mns 200 -mxs 2000 -bss 50 -js 40 -dir example-opt -gf True
 ```
 
 Results will be available in the `example-opt` directory, where you will find:
@@ -95,7 +105,7 @@ Results will be available in the `example-opt` directory, where you will find:
 
 #### Command line options
 
-- **-ag**: Algorithm to run can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences, Monte Carlo for small sequences and codon usage optimization. Default=mo.
+- **-ag**: Algorithm to run can be either mo for Multi-Objective, either mc for Monte Carlo, mo is suggested for long sequences, Monte Carlo for small sequences and codon usage optimization. Default: mo.
 
 - **-i**: Input DNA sequence to process.
 
@@ -107,7 +117,7 @@ Results will be available in the `example-opt` directory, where you will find:
 
 - **-it**: Number of iterations. The -it parameter should increase with the
   sequence size. It improves solution quality more than -p parameter, however
-  the computing time increase as well 
+  the computing time increase as well.
 
 - **-a**: Archive size, amount of non-dominated solutions to store at each
   algorithm iteration, allow to use smaller values for the pool size.
@@ -125,7 +135,7 @@ Results will be available in the `example-opt` directory, where you will find:
 - **-dir**: Output directory for MOODA results.
 
 - **-gf**: Allow the writing of FASTA and GenBank files, related to MOODA
-  solution if set as True. Default=False.
+  solution if set as True. Default: False.
 
 ## Authors
 

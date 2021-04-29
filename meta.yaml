@@ -21,7 +21,7 @@ requirements:
     - setuptools
     - numpy >=1.16
     - scipy
-    - biopython >=1.73
+    - biopython =1.73
     - pandas >=0.24
     - pyyaml
 
@@ -31,7 +31,7 @@ requirements:
     - scipy
     - numpy >=1.16
     - scipy
-    - biopython >=1.73
+    - biopython =1.73
     - pandas >=0.24
     - pyyaml
 
@@ -41,7 +41,7 @@ test:
 
 about:
   home: https://github.com/stracquadaniolab/mooda
-  summary: Multi-Objective Optimization for DNA design and Assembly
+  summary: Multi-Objective Optimization for DNA design and assembly
   license: MIT
   license_file: LICENSE
   dev_url: https://github.com/stracquadaniolab/mooda

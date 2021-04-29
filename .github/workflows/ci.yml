@@ -1,0 +1,60 @@
+name: "release"
+
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+  release:
+    name: "Release package"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: [3.7]
+        numpy: [1.15]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: "Install PIP required packages"
+        run: pip install wheel twine
+
+      - name: "Build PIP package"
+        run: python setup.py sdist bdist_wheel
+
+      - name: "Publish package on PyPi"
+        run: twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{secrets.PYPI_PASSWORD}} dist/*
+
+      - name: "Setup Conda"
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+          python-version: ${{ matrix.python }}
+          conda-channels: anaconda, conda-forge, bioconda
+
+      - name: "Install Conda development packages"
+        run: |
+            conda install conda-build
+            conda install -c anaconda anaconda-client
+
+      - name: "Build and upload Conda package"
+        run: |
+            mkdir conda-build
+            conda build . --no-build-id --numpy ${{ matrix.numpy }} --output-folder ./conda-build
+            conda convert -p all ./conda-build/**/mooda*.bz2
+            anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u ${{ secrets.ANACONDA_USERNAME }} --no-progress --private ./conda-build/**/mooda*.bz2
+
+      - name: Login to GitHub Container Registry
+        run: |
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io --username ${{ github.repository_owner }} --password-stdin
+
+      - name: "Build Docker image"
+        run: |
+          docker build . \
+            -t ghcr.io/stracquadaniolab/mooda:latest \
+            -t ghcr.io/stracquadaniolab/mooda:v0.8.2
+
+      - name: "Release Docker image"
+        run: |
+          docker push ghcr.io/stracquadaniolab/mooda:latest
+          docker push ghcr.io/stracquadaniolab/mooda:v0.8.2
