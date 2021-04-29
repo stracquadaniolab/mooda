@@ -45,12 +45,12 @@ jobs:
           docker build . \
             -f docker/Dockerfile \
             -t ghcr.io/stracquadaniolab/mooda:latest \
-            -t ghcr.io/stracquadaniolab/mooda:v0.9.1
+            -t ghcr.io/stracquadaniolab/mooda:v0.9.2
 
       - name: "Release Docker image"
         run: |
           docker push ghcr.io/stracquadaniolab/mooda:latest
-          docker push ghcr.io/stracquadaniolab/mooda:v0.9.1
+          docker push ghcr.io/stracquadaniolab/mooda:v0.9.2
 
       - name: "Install PIP required packages"
         run: pip install wheel twine
