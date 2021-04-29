@@ -34,7 +34,7 @@ jobs:
             mkdir conda-build
             conda build . --no-build-id --numpy ${{ matrix.numpy }} --output-folder ./conda-build
             conda convert -p all ./conda-build/**/mooda*.bz2
-            anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u ${{ secrets.ANACONDA_USERNAME }} --no-progress --private ./conda-build/**/mooda*.bz2
+            anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u ${{ secrets.ANACONDA_USERNAME }} ./conda-build/**/mooda*.bz2
 
       - name: Login to GitHub Container Registry
         run: |
