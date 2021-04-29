@@ -53,9 +53,9 @@ jobs:
           docker build . \
             -f docker/Dockerfile \
             -t ghcr.io/stracquadaniolab/mooda:latest \
-            -t ghcr.io/stracquadaniolab/mooda:v0.9.0
+            -t ghcr.io/stracquadaniolab/mooda:v0.9.1
 
       - name: "Release Docker image"
         run: |
           docker push ghcr.io/stracquadaniolab/mooda:latest
-          docker push ghcr.io/stracquadaniolab/mooda:v0.9.0
+          docker push ghcr.io/stracquadaniolab/mooda:v0.9.1
