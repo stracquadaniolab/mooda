@@ -7,6 +7,7 @@
 import logging
 import numpy as np
 import datetime
+from tqdm import tqdm
 from Bio import SeqIO
 from mooda.individual import Individual
 from mooda.population import Population
@@ -97,9 +98,8 @@ class EvolutionaryAlgorithm:
     def run(self):
         self.time_start = datetime.datetime.now()
         self.__initialize(self.target_genetic_code)
-        for it in range(self.max_iterations):
+        for it in tqdm(range(self.max_iterations)):
             self.current_iteration += 1
-            #logging.info("itr=" + str(self.current_iteration))
             for i in range(len(self.population.individuals)):
                 offspring = self.population.individuals[i].clone()
                 op_curr = np.random.choice(self.operators)
@@ -122,8 +122,8 @@ class EvolutionaryAlgorithm:
         self.assemblies[0].apply(self.population)
         self.__termination_process()
         self.time_end = datetime.datetime.now()
-        duration = "duration= " + str(self.time_end - self.time_start)
-        logging.info(duration)
+        # duration = "duration= " + str(self.time_end - self.time_start)
+        # logging.info(duration)
 
 
     def __eval_individual(self, ind):

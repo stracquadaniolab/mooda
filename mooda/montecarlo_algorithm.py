@@ -8,6 +8,7 @@ import logging
 import numpy as np
 import datetime
 import random
+from tqdm import tqdm
 from Bio import SeqIO
 from mooda.individual import Individual
 from mooda.archive import Archive
@@ -77,7 +78,7 @@ class MonteCarloAlgorithm:
     def run(self):
         self.time_start = datetime.datetime.now()
         self.__initialize()
-        for it in range(self.max_iterations):
+        for it in tqdm(range(self.max_iterations)):
             self.current_iteration += 1
             logging.info("itr=" + str(self.current_iteration))
             offspring = self.individual.clone()
@@ -87,8 +88,8 @@ class MonteCarloAlgorithm:
             self.__duel(self.individual, offspring)
         self.__termination()
         self.time_end = datetime.datetime.now()
-        duration = "duration= " + str(self.time_end - self.time_start)
-        logging.info(duration)
+        # duration = "duration= " + str(self.time_end - self.time_start)
+        # logging.info(duration)
 
     def __duel(self, parent, offspring):
         ind_domination_counter = 0

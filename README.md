@@ -91,7 +91,7 @@ Extract test data as follows:
 Run `mooda` as follows:
 
 ```
-    $ docker run -it --rm -v $PWD:$PWD -w $PWD ghcr.io/stracquadaniolab/mooda -ag mo -i seq_5_5.gb  -c config.yaml -p 10 -it 20 -a 100 -mns 200 -mxs 2000 -bss 50 -js 40 -dir example-opt -gf True
+    $ docker run -it --rm -v $PWD:$PWD -w $PWD ghcr.io/stracquadaniolab/mooda -i seq_5_5.gb  -c config.yaml -p 10 -it 20 -a 100 -mns 200 -mxs 2000 -bss 50 -js 40 -dir example-opt -gf True
 ```
 
 Results will be available in the `example-opt` directory, where you will find:
