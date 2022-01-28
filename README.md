@@ -12,7 +12,7 @@ It takes in input an annotated sequence in GenBank format, and optimize it with
 respect to user-defined objectives.
 
 Currently, some of the most common common operations in synthetic biology are
-built-in, including: 
+built-in, including:
 
 - The `GCOptimizationOperator` introduces silent mutation in coding regions to
   obtain DNA constructs with a user-defined GC content.
@@ -142,9 +142,25 @@ Results will be available in the `example-opt` directory, where you will find:
 
 ## Citation
 
-Design and assembly of DNA molecules using multi-objective optimisation.
-Angelo Gaeta, Valentin Zulkower and Giovanni Stracquadanio.
-bioRxiv. https://www.biorxiv.org/content/10.1101/761320v1
+[Design and assembly of DNA molecules using multi-objective optimization](https://academic.oup.com/synbio/article-abstract/6/1/ysab026/6387748).
+A Gaeta, V Zulkower, G Stracquadanio - Synthetic Biology, 2021
+
+```
+@article{10.1093/synbio/ysab026,
+    author = {Gaeta, Angelo and Zulkower, Valentin and Stracquadanio, Giovanni},
+    title = "{Design and assembly of DNA molecules using multi-objective optimization}",
+    journal = {Synthetic Biology},
+    volume = {6},
+    number = {1},
+    year = {2021},
+    month = {10},
+    issn = {2397-7000},
+    doi = {10.1093/synbio/ysab026},
+    url = {https://doi.org/10.1093/synbio/ysab026},
+    note = {ysab026},
+    eprint = {https://academic.oup.com/synbio/article-pdf/6/1/ysab026/40977182/ysab026.pdf},
+}
+```
 
 ## Issues
 

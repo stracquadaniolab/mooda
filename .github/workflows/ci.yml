@@ -14,50 +14,53 @@ jobs:
         python: [3.7]
         numpy: [1.15]
 
-    steps:
-      - uses: actions/checkout@v2
+        steps:
+            - uses: actions/checkout@v2
 
-      - name: "Setup Conda"
-        uses: s-weigand/setup-conda@v1
-        with:
-          update-conda: true
-          python-version: ${{ matrix.python }}
-          conda-channels: anaconda, conda-forge, bioconda
+            - name: "Setup Python"
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python }}
 
-      - name: "Install Conda development packages"
-        run: |
-            conda install conda-build
-            conda install -c anaconda anaconda-client
+            - name: "Setup Conda"
+              uses: conda-incubator/setup-miniconda@v2
+              with:
+                  auto-update-conda: true
+                  channels: conda-forge,bioconda,defaults
+                  conda-build-version: "3.21.7"
 
-      - name: "Build and upload Conda package"
-        run: |
-            mkdir conda-build
-            conda build . --no-build-id --numpy ${{ matrix.numpy }} --output-folder ./conda-build
-            conda convert -p osx-64 ./conda-build/linux-64/mooda*.bz2 --output-dir ./conda-build/
-            conda convert -p linux-32 ./conda-build/linux-64/mooda*.bz2 --output-dir ./conda-build/
-            anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u ${{ secrets.ANACONDA_USERNAME }} ./conda-build/**/mooda*.bz2
+            - name: "Install Conda client"
+              run: conda install -c anaconda anaconda-client
 
-      - name: Login to GitHub Container Registry
-        run: |
-            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io --username ${{ github.repository_owner }} --password-stdin
+            - name: "Build Conda package"
+              run: |
+                  conda build --no-build-id --numpy ${{ matrix.numpy }} --output-folder . .
+                  conda convert -p osx-64 linux-64/*.tar.bz2
 
-      - name: "Build Docker image"
-        run: |
-          docker build . \
-            -f docker/Dockerfile \
-            -t ghcr.io/stracquadaniolab/mooda:latest \
-            -t ghcr.io/stracquadaniolab/mooda:v0.10.0
+            - name: "Upload Conda package"
+              run: |
+                  $CONDA/bin/anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u stracquadaniolab --no-progress linux-64/*.tar.bz2
+                  $CONDA/bin/anaconda -t ${{ secrets.ANACONDA_API_TOKEN }} upload --force -u stracquadaniolab --no-progress osx-64/*.tar.bz2
 
-      - name: "Release Docker image"
-        run: |
-          docker push ghcr.io/stracquadaniolab/mooda:latest
-          docker push ghcr.io/stracquadaniolab/mooda:v0.10.0
+            - name: "Login to GitHub Container Registry"
+              uses: docker/login-action@v1
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.repository_owner }}
+                  password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: "Install PIP required packages"
-        run: pip install wheel twine
+            - name: "Push Docker image to GitHub Container Registry"
+              uses: docker/build-push-action@v2
+              with:
+                  file: ./docker/Dockerfile
+                  push: true
+                  tags: ghcr.io/${{ github.repository }}:v0.10.0, ghcr.io/${{ github.repository }}:latest
 
-      - name: "Build PIP package"
-        run: python setup.py sdist bdist_wheel
+            - name: "Install PIP required packages"
+              run: pip install wheel twine
 
-      - name: "Publish package on PyPi"
-        run: twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} dist/*
+            - name: "Build PIP package"
+              run: python setup.py sdist bdist_wheel
+
+            - name: "Publish package on PyPi"
+              run: twine upload -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} dist/*
