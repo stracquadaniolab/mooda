@@ -54,7 +54,7 @@ jobs:
               with:
                   file: ./docker/Dockerfile
                   push: true
-                  tags: ghcr.io/${{ github.repository }}:v0.10.0, ghcr.io/${{ github.repository }}:latest
+                  tags: ghcr.io/${{ github.repository }}:v0.10.1, ghcr.io/${{ github.repository }}:latest
 
             - name: "Install PIP required packages"
               run: pip install wheel twine
