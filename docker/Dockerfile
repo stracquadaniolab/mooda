@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.description="Multi-Objective Optimization for DNA
 LABEL org.opencontainers.image.url="https://github.com/stracquadaniolab/mooda"
 LABEL org.opencontainers.image.documentation="https://github.com/stracquadaniolab/mooda"
 LABEL org.opencontainers.image.source="https://github.com/stracquadaniolab/mooda"
-LABEL org.opencontainers.image.revision="v0.10.1"
+LABEL org.opencontainers.image.revision="v0.11.0"
 LABEL org.opencontainers.image.vendor="stracquadaniolab"
 LABEL org.opencontainers.image.authors="Giovanni Stracquadanio"
 
