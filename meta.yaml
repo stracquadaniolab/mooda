@@ -20,21 +20,17 @@ requirements:
     - pip
     - setuptools
     - numpy >=1.16
-    - scipy
     - biopython =1.73
     - pandas >=0.24
-    - pyyaml
+    - pyyaml ==5.4
     - tqdm
 
   run:
     - python
     - numpy >=1.16
-    - scipy
-    - numpy >=1.16
-    - scipy
     - biopython =1.73
     - pandas >=0.24
-    - pyyaml
+    - pyyaml ==5.4
     - tqdm
 
 test:
