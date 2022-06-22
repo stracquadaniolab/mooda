@@ -26,7 +26,7 @@ setup(
     # installation info and requirements
     install_requires=[
         "biopython==1.73",
-        "numpy==1.16.2",
+        "numpy==1.22.0",
         "pandas==0.24.2",
         "PyYAML==5.4",
         "tqdm",
